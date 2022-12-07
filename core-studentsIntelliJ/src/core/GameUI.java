@@ -23,6 +23,7 @@ public class GameUI
         {
             System.out.println("Enter player's name");
             String s = myIn.nextLine();
+            playerName = s;
             //myIn.nextLine();
             tr = new Tournament(s); // create
             choice = 100;
