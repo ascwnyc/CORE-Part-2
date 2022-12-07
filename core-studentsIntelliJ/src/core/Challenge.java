@@ -2,14 +2,14 @@ package core;
 
 public class Challenge {
 
-    private int challengeNo;
+    private static int challengeNo = 0;
     private String type;
     private String enemy;
     private int skillRequired;
     private int reward;
 
-    public Challenge(int cn, String ty, String en, int sr, int rw) {
-        challengeNo = cn;
+    public Challenge(String ty, String en, int sr, int rw) {
+        challengeNo++;
         type = ty;
         enemy = en;
         skillRequired = sr;

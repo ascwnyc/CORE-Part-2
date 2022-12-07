@@ -12,7 +12,9 @@ import java.io.*;
 public class Tournament implements CORE
 {
     // Fields
-    
+    private String playerName;
+    private ArrayList<Champion> championList;
+    private ArrayList<Challenge> challengeList;
     
     //**************** CORE ************************** 
     /** Constructor requires the name of the player
@@ -20,7 +22,9 @@ public class Tournament implements CORE
      */  
     public Tournament(String pl)
     {
-       
+       playerName = pl;
+       championList = new ArrayList<Champion>();
+       challengeList = new ArrayList<Challenge>();
     }
     
     
@@ -39,7 +43,7 @@ public class Tournament implements CORE
         
         return "";
      }
-  
+
     /** returns true if Treasury <=0 and the player's team has no 
      * champions which can be withdrawn. 
      * @return true if Treasury <=0 and the player's team has no 
@@ -83,7 +87,7 @@ public class Tournament implements CORE
         
         return false;
     }
-    
+
  // ***************** Players Team************************   
     /** Allows a champion to be entered for the player's team, if there 
      * is enough money in the Treasury for the entry fee.The champion's 
@@ -167,7 +171,7 @@ public class Tournament implements CORE
     }
     
     /** Retrieves the challenge represented by the challenge 
-     * number.Finds a champion from the team which can challenge the 
+     * number.Finds a champion from the team which can challenge the
      * challenge. The results of fighting an challenge will be 
      * one of the following:  
      * 0 - challenge won, add reward to the treasury, 
@@ -213,6 +217,15 @@ public class Tournament implements CORE
 //    public void readChallenges(String filename){
 //
 //    }
+
+    private void setupChampions() {
+        Champion cp0 = new Champion("Ganfrank", 7, true, 400, "transmutation", null, false);
+        Champion cp1 = new Champion("Rudolf", 6, true, 400, "invisibility", null, false);
+    }
+
+    private void setupChallenges() {
+        Challenge ch0 = new Challenge("Magic", "Borg", 3, 100);
+    }
 }
 
 
