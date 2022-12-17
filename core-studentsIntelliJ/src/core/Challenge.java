@@ -23,4 +23,18 @@ public class Challenge {
     public int getChallengeNo() {
         return challengeNo;
     }
+
+    public ChallengeType getType() {
+        return type;
+    }
+
+    public int getSkillRequired() {
+        return skillRequired;
+    }
+
+    public int getReward() {
+        return reward;
+    }
+
+
 }

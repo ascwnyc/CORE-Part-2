@@ -9,9 +9,10 @@ public class Champion {
     private String spellSpeciality;
     private String weapon;
     private boolean talks;
+    private ChampionType type;
     private ChampionState state;
 
-    public Champion (String nm, int sl, boolean nc, int ef, String ss, String wp, boolean tk) {
+    public Champion (String nm, int sl, boolean nc, int ef, String ss, String wp, boolean tk, ChampionType tp) {
         name = nm;
         skillLevel = sl;
         necromancer = nc;
@@ -19,6 +20,7 @@ public class Champion {
         spellSpeciality = ss;
         weapon = wp;
         talks = tk;
+        type = tp;
         state = ChampionState.WAITING;
     }
 
@@ -32,6 +34,18 @@ public class Champion {
 
     public ChampionState getState() {
         return state;
+    }
+
+    public int getEntryFee() {
+        return entryFee;
+    }
+
+    public int getSkillLevel() {
+        return skillLevel;
+    }
+
+    public ChampionType getType() {
+        return type;
     }
 
     /** Changes the champion's state to that of the string provided (if they are in the team)
