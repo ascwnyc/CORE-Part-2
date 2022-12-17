@@ -108,7 +108,22 @@ public class Tournament implements CORE
      **/        
     public int enterChampion(String nme){
 
-       return 0;
+        for (Champion temp : championList)
+        {
+            if (temp.getName() == nme)
+            {
+                ChampionState state = temp.getState();
+                if (state != ChampionState.WAITING)
+                { return 1; }
+
+                if (state == ChampionState.WAITING)
+                { return 2; }
+
+                temp.alterState("active") ;
+                return 0;
+            }
+        }
+        return -1;
     }
     
         
@@ -119,12 +134,12 @@ public class Tournament implements CORE
      * is in the player's team, false otherwise.
      **/
     public boolean isInPlayersTeam(String nme){
-        for (int i = 0; i < championList.size(); i++)  //can't use the for..each as no index
+        for (Champion temp : championList)  //can't use the for..each as no index
         {
-            Champion temp = championList.get(i);
             if((temp.getName() == nme))
             {
-                return true;
+                if (temp.getState() == ChampionState.DEAD)
+                { return true; }
             }
         }
         return false;
@@ -140,12 +155,18 @@ public class Tournament implements CORE
      * @return as shown above 
      **/
     public int retireChampion(String nme){
-        for (int i = 0; i < championList.size(); i++)
+        for (Champion temp : championList)
         {
-            Champion temp = championList.get(i);
-            if((temp.getName() == nme))
+            if (temp.getName() == nme)
             {
-                championList.remove(i);
+                ChampionState state = temp.getState();
+                if (state == ChampionState.DEAD)
+                { return 1; }
+
+                if (state == ChampionState.WAITING)
+                { return 2; }
+
+                temp.alterState("in reserve") ;
                 return 0;
             }
         }
@@ -157,11 +178,13 @@ public class Tournament implements CORE
      * @return a String representation of the champions in the player's team
      **/
     public String getTeam(){
-
         String ss = "";
         for(Champion temp : championList) // get each item in turn
         {
-            ss = ss + temp.toString() + "\n";
+            ChampionState state = temp.getState();
+            if (state == ChampionState.ACTIVE) {
+                ss = ss + temp.toString() + "\n";
+            }
         }
         return ss;
     }
@@ -193,9 +216,8 @@ public class Tournament implements CORE
      **/
     public String getChallenge(int num){
 
-        for (int i = 0; i < challengeList.size(); i++)
+        for (Challenge temp : challengeList)
         {
-            Challenge temp = challengeList.get(i);
             if((temp.getChallengeNo() == num))
             {
                 return temp.toString();
@@ -210,10 +232,8 @@ public class Tournament implements CORE
     public String getAllChallenges(){
 
         String ss = "";
-        for (int i = 0; i < challengeList.size(); i++)
+        for (Challenge temp : challengeList)
         {
-            Challenge temp = challengeList.get(i);
-
                 ss = ss + temp.toString();
         }
         return ss;
@@ -269,11 +289,57 @@ public class Tournament implements CORE
 
     private void setupChampions() {
         Champion cp0 = new Champion("Ganfrank", 7, true, 400, "transmutation", null, false);
+        championList.add(cp0);
         Champion cp1 = new Champion("Rudolf", 6, true, 400, "invisibility", null, false);
+        championList.add(cp1);
+        Champion cp2 = new Champion("Elblond", 1, false, 150, "", "sword", false);
+        championList.add(cp2);
+        Champion cp3 = new Champion("Flimsi", 2, false, 200, "", "bow", false);
+        championList.add(cp3);
+        Champion cp4 = new Champion("Drabina", 7, false, 500, "", "", false);
+        championList.add(cp4);
+        Champion cp5 = new Champion("Golum", 7, false, 500, "", "sword", true);
+        championList.add(cp5);
+        Champion cp6 = new Champion("Argon", 9, false, 900, "", "mace", false);
+        championList.add(cp6);
+        Champion cp7 = new Champion("Neon", 2, false, 300, "translocation", "", false);
+        championList.add(cp7);
+        Champion cp8 = new Champion("Xenon",7, false, 500, "", "", true);
+        championList.add(cp8);
+        Champion cp9 = new Champion("Atlanta", 5, false, 500, "", "bow", false);
+        championList.add(cp9);
+        Champion cp10 =  new Champion("Krypton", 8, false, 300, "fireballs", "", false);
+        championList.add(cp10);
+        Champion cp11 = new Champion("Hedwig", 1, true, 400, "flying", "", false);
+        championList.add(cp11);
+
     }
 
     private void setupChallenges() {
-        Challenge ch0 = new Challenge("Magic", "Borg", 3, 100);
+        Challenge ch0 = new Challenge(ChallengeType.MAGIC, "Borg", 3, 100);
+        challengeList.add(ch0);
+        Challenge ch1 = new Challenge(ChallengeType.FIGHT, "Huns", 3, 120);
+        challengeList.add(ch1);
+        Challenge ch2 = new Challenge(ChallengeType.MYSTERY, "Ferengi", 3, 150);
+        challengeList.add(ch2);
+        Challenge ch3 = new Challenge(ChallengeType.MAGIC, "Vandal", 9, 200);
+        challengeList.add(ch3);
+        Challenge ch4 = new Challenge(ChallengeType.MYSTERY, "Borg", 7, 90);
+        challengeList.add(ch4);
+        Challenge ch5 = new Challenge(ChallengeType.FIGHT, "Goth", 8, 45);
+        challengeList.add(ch5);
+        Challenge ch6 = new Challenge(ChallengeType.MAGIC, "Frank", 10, 200);
+        challengeList.add(ch6);
+        Challenge ch7 = new Challenge(ChallengeType.FIGHT, "Sith", 10, 170);
+        challengeList.add(ch7);
+        Challenge ch8 = new Challenge(ChallengeType.MYSTERY, "Cardashian", 9, 300);
+        challengeList.add(ch8);
+        Challenge ch9 = new Challenge(ChallengeType.FIGHT, "Jute", 2, 300);
+        challengeList.add(ch9);
+        Challenge ch10 = new Challenge(ChallengeType.MAGIC, "Celt", 2, 250);
+        challengeList.add(ch10);
+        Challenge ch11 = new Challenge(ChallengeType.MYSTERY, "Celt", 1, 250);
+        challengeList.add(ch11);
     }
 }
 

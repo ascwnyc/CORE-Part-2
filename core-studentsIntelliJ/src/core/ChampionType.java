@@ -21,6 +21,6 @@ public enum ChampionType implements Serializable
     
     public String toString()
     {
-        return type + magic + fight + mystery;
+        return type;
     }
 }

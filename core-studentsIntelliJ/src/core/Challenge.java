@@ -3,12 +3,12 @@ package core;
 public class Challenge {
 
     private static int challengeNo = 0;
-    private String type;
+    private ChallengeType type;
     private String enemy;
     private int skillRequired;
     private int reward;
 
-    public Challenge(String ty, String en, int sr, int rw) {
+    public Challenge(ChallengeType ty, String en, int sr, int rw) {
         challengeNo++;
         type = ty;
         enemy = en;
