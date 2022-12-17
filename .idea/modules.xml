@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CORE Part 2.iml" filepath="$PROJECT_DIR$/CORE Part 2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core-studentsIntelliJ/core-studentsIntelliJ.iml" filepath="$PROJECT_DIR$/core-studentsIntelliJ/core-studentsIntelliJ.iml" />
+    </modules>
+  </component>
+</project>
