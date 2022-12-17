@@ -15,6 +15,7 @@ public class Tournament implements CORE
     private String playerName;
     private ArrayList<Champion> championList;
     private ArrayList<Challenge> challengeList;
+    private int treasury;
     
     //**************** CORE ************************** 
     /** Constructor requires the name of the player
@@ -25,9 +26,9 @@ public class Tournament implements CORE
        playerName = pl;
        championList = new ArrayList<Champion>();
        challengeList = new ArrayList<Challenge>();
+       treasury = 1000;
     }
-    
-    
+
     //******* Implements interface CORE *******************
     /**Returns a String representation of the state of the game,
      * including the name of the player, state of the treasury,
@@ -40,9 +41,8 @@ public class Tournament implements CORE
      * team,(or, "No champions" if team is empty)
      */
     public String toString() {
-        
-        return "";
-     }
+        return playerName + Integer.toString(treasury) + String.valueOf(isDefeated()) + getTeam();
+   }
 
     /** returns true if Treasury <=0 and the player's team has no 
      * champions which can be withdrawn. 
@@ -50,16 +50,15 @@ public class Tournament implements CORE
      * champions which can be decommissioned. 
      */
     public boolean isDefeated(){
-        
        return false;
     }
-    
+
     /** returns the amount of money in the Treasury
      * @return the amount of money in the Treasury
      */
     public int getMoney(){
         
-       return 0;
+       return treasury;
     }    
     
     /**Returns a String representation of all champions in reserve
@@ -84,7 +83,15 @@ public class Tournament implements CORE
     * @return true if champion in reserve, false otherwise
     */
     public boolean isInReserve(String nme) {
-        
+
+        for (int i = 0; i < championList.size(); i++)  //can't use the for..each as no index
+        {
+            Champion temp = championList.get(i);
+            if((temp.getName() == nme))
+            {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -100,7 +107,7 @@ public class Tournament implements CORE
      * @return as shown above
      **/        
     public int enterChampion(String nme){
-        
+
        return 0;
     }
     
@@ -112,8 +119,15 @@ public class Tournament implements CORE
      * is in the player's team, false otherwise.
      **/
     public boolean isInPlayersTeam(String nme){
-        
-       return false;
+        for (int i = 0; i < championList.size(); i++)  //can't use the for..each as no index
+        {
+            Champion temp = championList.get(i);
+            if((temp.getName() == nme))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Removes a champion from the team to the reserves (if they are in the team)
@@ -126,18 +140,30 @@ public class Tournament implements CORE
      * @return as shown above 
      **/
     public int retireChampion(String nme){
-        
-       return 0;
+        for (int i = 0; i < championList.size(); i++)
+        {
+            Champion temp = championList.get(i);
+            if((temp.getName() == nme))
+            {
+                championList.remove(i);
+                return 0;
+            }
+        }
+        return -1;
     }
-        
-        
+
     /**Returns a String representation of the champions in the player's team
      * or the message "No champions entered"
      * @return a String representation of the champions in the player's team
      **/
     public String getTeam(){
-        
-       return "";
+
+        String ss = "";
+        for(Champion temp : championList) // get each item in turn
+        {
+            ss = ss + temp.toString() + "\n";
+        }
+        return ss;
     }
     
     
@@ -147,8 +173,16 @@ public class Tournament implements CORE
      * @return true if the number represents a challenge
      **/
      public boolean isChallenge(int num){
-        
-       return false;
+
+         for (int i = 0; i < challengeList.size(); i++)  //can't use the for..each as no index
+         {
+             Challenge temp = challengeList.get(i);
+             if((temp.getChallengeNo() == num))
+             {
+                 return true;
+             }
+         }
+         return false;
     }
      
     /** Provides a String representation of an challenge given by 
@@ -158,16 +192,31 @@ public class Tournament implements CORE
      * the challenge number
      **/
     public String getChallenge(int num){
-        
-       return "";
+
+        for (int i = 0; i < challengeList.size(); i++)
+        {
+            Challenge temp = challengeList.get(i);
+            if((temp.getChallengeNo() == num))
+            {
+                return temp.toString();
+            }
+        }
+        return "";
     }
     
     /** Provides a String representation of all challenges 
      * @return returns a String representation of all challenges
      **/
     public String getAllChallenges(){
-        
-       return "";
+
+        String ss = "";
+        for (int i = 0; i < challengeList.size(); i++)
+        {
+            Challenge temp = challengeList.get(i);
+
+                ss = ss + temp.toString();
+        }
+        return ss;
     }
     
     /** Retrieves the challenge represented by the challenge 

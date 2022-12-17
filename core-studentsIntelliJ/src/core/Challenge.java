@@ -19,4 +19,8 @@ public class Challenge {
     public String toString() {
         return("\n Challenge Number: " + challengeNo + "\nType: " + type + "\nEnemy: " + enemy + "\nSkill Required: " + skillRequired + "\nReward: " + reward);
     }
+
+    public int getChallengeNo() {
+        return challengeNo;
+    }
 }

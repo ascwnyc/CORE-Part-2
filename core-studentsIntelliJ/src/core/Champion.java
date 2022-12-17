@@ -23,4 +23,8 @@ public class Champion {
     public String toString() {
         return("\n Name: " + name + "\nSkill Level: " + skillLevel + "\nNecromancer: " + necromancer + "\nEntry Fee: " + entryFee + "\nSpell Speciality: " + spellSpeciality + "\nWeapon: " + weapon + "\nTalks: " + talks);
     }
+
+    public String getName() {
+        return name;
+    }
 }
