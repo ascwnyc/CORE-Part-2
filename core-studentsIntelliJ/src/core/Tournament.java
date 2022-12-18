@@ -79,7 +79,7 @@ public class Tournament implements CORE {
      * @return a String representation of all champions in reserve
      **/
     public String getReserve() {
-        String ss = "die";
+        String ss = "";
         for (Champion temp : championList) {
             if (temp.getState() == ChampionState.WAITING) {
 
@@ -87,7 +87,7 @@ public class Tournament implements CORE {
             }
         }
 
-        return "cunt";
+        return ss;
     }
 
     /**
