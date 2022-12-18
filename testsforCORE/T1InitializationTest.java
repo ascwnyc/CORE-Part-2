@@ -56,6 +56,7 @@ public class T1InitializationTest {
         String result = game.toString();
         String[] xx = {"Olek","1000", "Is OK", "No champions"};
         boolean actual = containsText(result,xx );
+        System.out.println(actual);
         assertTrue(actual);
     }
     

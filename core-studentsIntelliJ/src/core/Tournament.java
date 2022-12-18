@@ -46,7 +46,17 @@ public class Tournament implements CORE {
      * team,(or, "No champions" if team is empty)
      */
     public String toString() {
-        return playerName + Integer.toString(treasury) + String.valueOf(isDefeated()) + getTeam();
+        String defeated;
+        if (!isDefeated()){
+        defeated = "Is OK";}
+        else {
+            defeated = "Defeated";
+        }
+    String team = getTeam();
+    if (team == ""){
+        team = "No champions";
+    }
+        return "\n Player name: " + playerName + "\n Treasury: " + Integer.toString(treasury) + "\n Defeated?: " + defeated + "\n Team: " + team;
     }
 
     /**
