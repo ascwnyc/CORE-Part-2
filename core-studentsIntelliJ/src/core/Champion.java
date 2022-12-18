@@ -25,7 +25,7 @@ public class Champion {
     }
 
     public String toString() {
-        return("\n Name: " + name + "\nSkill Level: " + skillLevel + "\nNecromancer: " + necromancer + "\nEntry Fee: " + entryFee + "\nSpell Speciality: " + spellSpeciality + "\nWeapon: " + weapon + "\nTalks: " + talks);
+        return("\n Name: " + name + "\nSkill Level: " + skillLevel + "\nNecromancer: " + necromancer + "\nEntry Fee: " + entryFee + "\nSpell Speciality: " + spellSpeciality + "\nWeapon: " + weapon + "\nTalks: " + talks + "\nType: " + type.toString() + "\nState: " + state.toString());
     }
 
     public String getName() {

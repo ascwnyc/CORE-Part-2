@@ -28,6 +28,8 @@ public class Tournament implements CORE {
         championList = new ArrayList<Champion>();
         challengeList = new ArrayList<Challenge>();
         treasury = 1000;
+        setupChallenges();
+        setupChampions();
     }
 
     //******* Implements interface CORE *******************
@@ -77,14 +79,15 @@ public class Tournament implements CORE {
      * @return a String representation of all champions in reserve
      **/
     public String getReserve() {
-        String ss = "";
+        String ss = "die";
         for (Champion temp : championList) {
             if (temp.getState() == ChampionState.WAITING) {
-                ss = ss + temp.toString();
+
+                ss += temp.toString();
             }
         }
 
-        return ss;
+        return "cunt";
     }
 
     /**
@@ -97,7 +100,7 @@ public class Tournament implements CORE {
         String ss = "";
         for (Champion temp : championList)
         {
-            if ((temp.getName() == nme)) {
+            if (temp.getName().equals(nme)) {
                 ss = temp.toString();
             }
         }
@@ -114,7 +117,7 @@ public class Tournament implements CORE {
 
         for (Champion temp : championList)
         {
-            if ((temp.getName() == nme)) {
+            if ((temp.getName().equals(nme))) {
                 if (temp.getState() != ChampionState.WAITING) {
                     return true;
                 }
@@ -140,7 +143,7 @@ public class Tournament implements CORE {
     public int enterChampion(String nme) {
 
         for (Champion temp : championList) {
-            if (temp.getName() == nme) {
+            if (temp.getName().equals(nme)) {
                 ChampionState state = temp.getState();
                 if (state != ChampionState.WAITING) {
                     return 1;
@@ -168,10 +171,10 @@ public class Tournament implements CORE {
      * is in the player's team, false otherwise.
      **/
     public boolean isInPlayersTeam(String nme) {
-        for (Champion temp : championList)  //can't use the for..each as no index
+        for (Champion temp : championList)
         {
-            if ((temp.getName() == nme)) {
-                if (temp.getState() == ChampionState.DEAD) {
+            if (temp.getName().equals(nme)) {
+                if (temp.getState() == ChampionState.ACTIVE) {
                     return true;
                 }
             }
@@ -192,8 +195,9 @@ public class Tournament implements CORE {
      **/
     public int retireChampion(String nme) {
         for (Champion temp : championList) {
-            if (temp.getName() == nme) {
+            if (temp.getName().equals(nme)) {
                 ChampionState state = temp.getState();
+                System.out.println(state.toString());
                 if (state == ChampionState.DEAD) {
                     return 1;
                 }
@@ -238,13 +242,9 @@ public class Tournament implements CORE {
      * @return true if the number represents a challenge
      **/
     public boolean isChallenge(int num) {
-
-        for (Challenge temp : challengeList) {
-            ;
-            if ((temp.getChallengeNo() == num)) {
+            if (num < challengeList.size() && num > 0) {
                 return true;
             }
-        }
         return false;
     }
 
@@ -298,21 +298,20 @@ public class Tournament implements CORE {
      * @return an int showing the result(as above) of fighting the challenge
      */
     public int fightChallenge(int chalNo) {
-
         if (isChallenge(chalNo)) {
-            Challenge challenge = challengeList.get(chalNo - 1);
+            Challenge challenge = challengeList.get(chalNo-1);
             String challengeType = challenge.getType().toString().toLowerCase();
             boolean matchesType = false;
             for (Champion temp : championList)
             {
                 if (temp.getState() == ChampionState.ACTIVE) {
-                    if (challengeType == "magic") {
+                    if (challengeType.equals("magic")) {
                         matchesType = temp.getType().isMagic();
                     }
-                    if (challengeType == "fight") {
+                    if (challengeType.equals("fight")) {
                         matchesType = temp.getType().isFight();
                     }
-                    if (challengeType == "mystery") {
+                    if (challengeType.equals("mystery")) {
                         matchesType = temp.getType().isMystery();
                     }
 
@@ -339,7 +338,7 @@ public class Tournament implements CORE {
             return 2;
 
         }
-        return 0;
+        return -1;
     }
 
 //// These methods are not needed until Task 4.4
@@ -381,13 +380,13 @@ public class Tournament implements CORE {
         championList.add(cp3);
         Champion cp4 = new Champion("Drabina", 7, false, 500, "", "", false, ChampionType.DRAGON);
         championList.add(cp4);
-        Champion cp5 = new Champion("Golum", 7, false, 500, "", "sword", true, ChampionType.DRAGON);
+        Champion cp5 = new Champion("Golum", 7, false, 500, "", "sword", true, ChampionType.TALKINGDRAGON);
         championList.add(cp5);
         Champion cp6 = new Champion("Argon", 9, false, 900, "", "mace", false, ChampionType.WARRIOR);
         championList.add(cp6);
         Champion cp7 = new Champion("Neon", 2, false, 300, "translocation", "", false, ChampionType.WIZARD);
         championList.add(cp7);
-        Champion cp8 = new Champion("Xenon", 7, false, 500, "", "", true, ChampionType.DRAGON);
+        Champion cp8 = new Champion("Xenon", 7, false, 500, "", "", true, ChampionType.TALKINGDRAGON);
         championList.add(cp8);
         Champion cp9 = new Champion("Atlanta", 5, false, 500, "", "bow", false, ChampionType.WARRIOR);
         championList.add(cp9);
@@ -432,7 +431,7 @@ public class Tournament implements CORE {
      * @return true if there is enough gulden left in the treasury to deduct the amount by, otherwise returns false
      */
     public boolean alterTreasury(int gulden) {
-        if (gulden < treasury) {
+        if (treasury + gulden > 0) {
             treasury = treasury + gulden;
             return true;
         }

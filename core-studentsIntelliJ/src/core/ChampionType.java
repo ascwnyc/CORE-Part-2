@@ -8,40 +8,19 @@ import java.io.Serializable;
  */
 public enum ChampionType implements Serializable
 {
-    WIZARD("Wizard", false), WARRIOR("Warrior", false), DRAGON("Dragon", false);
+    WIZARD("Wizard", true, true, true), WARRIOR("Warrior", false, true, false), DRAGON("Dragon", false, true, false), TALKINGDRAGON("Talking dragon", false, true, true);
     private String type;
     private boolean magic;
     private boolean fight;
     private boolean mystery;
 
-    private ChampionType(String ty, boolean tk)
-    {
-        ty = ty.toLowerCase();
+    private ChampionType(String ty, boolean mc, boolean fg, boolean ms) {
 
-        if (ty == "wizard") {
-            magic = true;
-            fight = true;
-            mystery = true;
-        }
-
-        if (ty == "warrior") {
-            magic = false;
-            fight = true;
-            mystery = false;
-        }
-
-        if (ty == "dragon") {
-            magic = false;
-            fight = true;
-            if (tk == true) {
-                mystery = true;
-            }
-            else {
-                mystery = false;
-            }
-            }
+        magic = mc;
+        fight = fg;
+        mystery = ms;
         type = ty;
-        }
+    }
 
     public String toString()
     {

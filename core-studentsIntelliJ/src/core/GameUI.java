@@ -35,37 +35,64 @@ public class GameUI
                 }
                 else if (choice == 2)
                 {
-                    // code omitted
+                    System.out.println(tr.getTeam());
                 }
                 else if (choice == 3)
                 {
-                    // code omitted
+                    String nm = "f";
+                    while (nm == "f") {
+                        System.out.println("Enter champion's name");
+                        nm = myIn.nextLine();
+                        nm = tr.getChampionDetails(nm);
+                        if (nm == "") {
+                            System.out.println("Invalid champion name, please try again");
+                            nm = "f";
+                        }
+
+                    }
+                    System.out.println(nm);
                 } 
                 else if (choice == 4)
-                {   
+                {
                     System.out.println("Enter Champion name");
                     String nme = (myIn.nextLine()).trim();
                     result = tr.enterChampion(nme);
                     // code omitted
                     // display message appropriate to result
-                    
-                    System.out.println("\n" + output + "\nTreasury = £" + tr.getMoney());
+
+                    output = processAddingResult(result);
+                    System.out.println("\n" + output + "\nTreasury = " + tr.getMoney());
+
                 }
                 else if (choice == 5)
                 {
                     System.out.println("Enter number of the challenge");
                     String chal = myIn.nextLine();
                     int number = Integer.parseInt(chal);
+                    System.out.println(number);
                     if (tr.isChallenge(number))
                     {
                         result = tr.fightChallenge(number);
                     }
+                    System.out.println(result);
                     output = processChallengeResult(result);
                     System.out.println("\n" + output + "\nTreasury = " + tr.getMoney());
                 }
                 else if (choice==6)
                 {
-                    // code omitted
+                    String nm = "f";
+                    while (nm == "f") {
+                        System.out.println("Enter champion's name to retire");
+                         nm = (myIn.nextLine()).trim();
+                        if (nm == "") {
+                            System.out.println("Invalid champion name, please try again");
+                            nm = "f";
+                        }
+
+                    }
+
+                    output = processRetiringResult(result);
+                    System.out.println("\n" + output + "\nTreasury = " + tr.getMoney());
                 }  
                 else if (choice==7)
                 {
@@ -140,5 +167,61 @@ public class GameUI
             out = "No such result";
         }
         return out; 
+    }
+
+    private static String processAddingResult(int res) {
+
+        String out;
+
+        if (res == 0) {
+            out = "Champion added to your team and is now ready for battle";
+        }
+
+        else if (res == 1) {
+            out = "Champion is not in reserves, it cannot be added to your team";
+        }
+
+        else if (res == 2) {
+            out = "There is not enough gulden in the treasury to add this champion to your team";
+        }
+
+        else if (res == -1) {
+            out = "The specified champion does not exist and cannot be added to the team";
+        }
+
+        else
+        {
+            out = "No such result";
+        }
+
+        return out;
+    }
+
+    private static String processRetiringResult(int res) {
+
+        String out;
+
+        if (res == 0) {
+            out = "Champion has been retired from your team and is in reserves";
+        }
+
+        else if (res == 1) {
+            out = "This champion may not be retired as they are dead";
+        }
+
+        else if (res == 2) {
+            out = "This champion cannot be retired because they are not in the team";
+        }
+
+        else if (res == -1) {
+            out = "The specified champion does not exist and cannot be retired from the team";
+        }
+
+        else
+        {
+            out = "No such result";
+        }
+
+        return out;
     }
 }
