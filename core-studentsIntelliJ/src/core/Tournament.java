@@ -128,7 +128,7 @@ public class Tournament implements CORE {
         for (Champion temp : championList)
         {
             if ((temp.getName().equals(nme))) {
-                if (temp.getState() != ChampionState.WAITING) {
+                if (temp.getState() == ChampionState.WAITING) {
                     return true;
                 }
             }
@@ -270,6 +270,7 @@ public class Tournament implements CORE {
 
         for (Challenge temp : challengeList) {
             if ((temp.getChallengeNo() == num)) {
+                System.out.println("hey");
                 return temp.toString();
             }
         }
@@ -315,13 +316,13 @@ public class Tournament implements CORE {
             for (Champion temp : championList)
             {
                 if (temp.getState() == ChampionState.ACTIVE) {
-                    if (challengeType.equals("magic")) {
+                    if (challengeType.trim().equals("magic")) {
                         matchesType = temp.getType().isMagic();
                     }
-                    if (challengeType.equals("fight")) {
+                    if (challengeType.trim().equals("fight")) {
                         matchesType = temp.getType().isFight();
                     }
-                    if (challengeType.equals("mystery")) {
+                    if (challengeType.trim().equals("mystery")) {
                         matchesType = temp.getType().isMystery();
                     }
 
@@ -338,6 +339,15 @@ public class Tournament implements CORE {
                             return 1;
                         }
                 }
+
+                    alterTreasury(-challenge.getReward());
+                    temp.alterState("dead");
+                    if (isDefeated()) {
+                        return 3;
+                    }
+                    return 1;
+
+
                 }
 
             }
@@ -408,45 +418,66 @@ public class Tournament implements CORE {
     }
 
     private void setupChallenges() {
-        Challenge ch0 = new Challenge(ChallengeType.MAGIC, "Borg", 3, 100);
+        boolean reset;
+        if (challengeList.size() == 0) {
+        reset = true;
+        }
+        else {
+            reset = false;
+        }
+        Challenge ch0 = new Challenge(ChallengeType.MAGIC, "Borg", 3, 100, reset);
         challengeList.add(ch0);
-        Challenge ch1 = new Challenge(ChallengeType.FIGHT, "Huns", 3, 120);
+        Challenge ch1 = new Challenge(ChallengeType.FIGHT, "Huns", 3, 120, false);
         challengeList.add(ch1);
-        Challenge ch2 = new Challenge(ChallengeType.MYSTERY, "Ferengi", 3, 150);
+        Challenge ch2 = new Challenge(ChallengeType.MYSTERY, "Ferengi", 3, 150, false);
         challengeList.add(ch2);
-        Challenge ch3 = new Challenge(ChallengeType.MAGIC, "Vandal", 9, 200);
+        Challenge ch3 = new Challenge(ChallengeType.MAGIC, "Vandal", 9, 200, false);
         challengeList.add(ch3);
-        Challenge ch4 = new Challenge(ChallengeType.MYSTERY, "Borg", 7, 90);
+        Challenge ch4 = new Challenge(ChallengeType.MYSTERY, "Borg", 7, 90, false);
         challengeList.add(ch4);
-        Challenge ch5 = new Challenge(ChallengeType.FIGHT, "Goth", 8, 45);
+        Challenge ch5 = new Challenge(ChallengeType.FIGHT, "Goth", 8, 45, false);
         challengeList.add(ch5);
-        Challenge ch6 = new Challenge(ChallengeType.MAGIC, "Frank", 10, 200);
+        Challenge ch6 = new Challenge(ChallengeType.MAGIC, "Frank", 10, 200, false);
         challengeList.add(ch6);
-        Challenge ch7 = new Challenge(ChallengeType.FIGHT, "Sith", 10, 170);
+        Challenge ch7 = new Challenge(ChallengeType.FIGHT, "Sith", 10, 170, false);
         challengeList.add(ch7);
-        Challenge ch8 = new Challenge(ChallengeType.MYSTERY, "Cardashian", 9, 300);
+        Challenge ch8 = new Challenge(ChallengeType.MYSTERY, "Cardashian", 9, 300, false);
         challengeList.add(ch8);
-        Challenge ch9 = new Challenge(ChallengeType.FIGHT, "Jute", 2, 300);
+        Challenge ch9 = new Challenge(ChallengeType.FIGHT, "Jute", 2, 300, false);
         challengeList.add(ch9);
-        Challenge ch10 = new Challenge(ChallengeType.MAGIC, "Celt", 2, 250);
+        Challenge ch10 = new Challenge(ChallengeType.MAGIC, "Celt", 2, 250, false);
         challengeList.add(ch10);
-        Challenge ch11 = new Challenge(ChallengeType.MYSTERY, "Celt", 1, 250);
+        Challenge ch11 = new Challenge(ChallengeType.MYSTERY, "Celt", 1, 250, false);
         challengeList.add(ch11);
     }
 
     /**
-     * Alters the treasury by the specified amount of gulden determined by the int gulden from the treasury if there is enough gulden in the treasury to do so
+     * Alters the treasury by the specified amount of gulden determined by the int gulden from the treasury
+     *
+     * @param gulden is the amount of gulden to alter by, positive gulden increases the treasury and negative gulden decreases the treasury.
+     *
+     */
+    public boolean alterTreasury(int gulden) {
+        if (enoughGuldun(gulden)) {
+        treasury = treasury + gulden;
+        return true; }
+        return false;
+    }
+
+    /**
+     * Checks whether there is enough gulden in the treasury to deduct gulden from
      *
      * @param gulden is the amount of gulden to alter by, positive gulden increases the treasury and negative gulden decreases the treasury.
      * @return true if there is enough gulden left in the treasury to deduct the amount by, otherwise returns false
      */
-    public boolean alterTreasury(int gulden) {
-        if (treasury + gulden > 0) {
-            treasury = treasury + gulden;
+    public boolean enoughGuldun(int gulden) {
+        if (treasury + gulden >= 0) {
             return true;
         }
         return false;
     }
+
+
 
     /**
      * Returns whether the team is empty or not.
