@@ -160,12 +160,13 @@ public class Tournament implements CORE {
                 }
 
                 int gulden = temp.getEntryFee();
-                if (!alterTreasury(-gulden)) {
-                    return 2;
+                if (enoughGuldun(-gulden)) {
+                    alterTreasury(-gulden);
+                    temp.alterState("active");
+                    return 0;
                 }
 
-                temp.alterState("active");
-                return 0;
+                return 2;
             }
         }
         return -1;
@@ -270,7 +271,6 @@ public class Tournament implements CORE {
 
         for (Challenge temp : challengeList) {
             if ((temp.getChallengeNo() == num)) {
-                System.out.println("hey");
                 return temp.toString();
             }
         }
@@ -341,20 +341,20 @@ public class Tournament implements CORE {
                 }
 
                     alterTreasury(-challenge.getReward());
-                    temp.alterState("dead");
                     if (isDefeated()) {
                         return 3;
                     }
-                    return 1;
+                    return 2;
 
 
                 }
 
             }
-
+            alterTreasury(-challenge.getReward());
             if (isDefeated()) {
                 return 3;
             }
+
             return 2;
 
         }
@@ -457,11 +457,8 @@ public class Tournament implements CORE {
      * @param gulden is the amount of gulden to alter by, positive gulden increases the treasury and negative gulden decreases the treasury.
      *
      */
-    public boolean alterTreasury(int gulden) {
-        if (enoughGuldun(gulden)) {
+    public void alterTreasury(int gulden) {
         treasury = treasury + gulden;
-        return true; }
-        return false;
     }
 
     /**
