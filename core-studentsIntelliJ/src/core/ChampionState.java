@@ -1,6 +1,8 @@
 package core;
 
 import java.io.*;
+import java.util.Locale;
+
 /**
  * Enumeration class ChampionState 
  * Specifies all possible states of a champion
@@ -10,7 +12,7 @@ import java.io.*;
  */
 public enum ChampionState implements Serializable
 {
-    WAITING(" In reserve"), ACTIVE(" Active"),  DEAD (" Dead");
+    WAITING("In reserve"), ACTIVE("Active"),  DEAD ("Dead");
     private String state;
     
     private ChampionState(String st)
@@ -22,4 +24,6 @@ public enum ChampionState implements Serializable
     {
         return state;
     }
+
+
 }
