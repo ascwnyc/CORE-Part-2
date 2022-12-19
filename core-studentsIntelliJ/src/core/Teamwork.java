@@ -4,8 +4,8 @@ package core;
 /**
  * Details of your team
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author (Alex Williams, Terrence Corner)
+ * @version (v1.0.0 19/12/22)
  */
 public class Teamwork
 {
@@ -16,13 +16,13 @@ public class Teamwork
         // with the details of your team
         // It will help us if the surname of programmer1 comes
         // alphabetically before the surname of programmer2
-        details[0] = "team name";
-        details[1] = "surname of programmer1";
-        details[2] = "first name of programmer1";
-        details[3] = "SRN of programmer1";
-        details[4] = "surname of programmer2";
-        details[5] = "first name of programmer2";
-        details[6] = "SRN of programmer2";
+        details[0] = "TCAW";
+        details[1] = "Williams";
+        details[2] = "Alex";
+        details[3] = "19045324";
+        details[4] = "Corner";
+        details[5] = "Terrence";
+        details[6] = "19039667";
     }
     
     public String[] getTeamDetails()
