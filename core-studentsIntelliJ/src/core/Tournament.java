@@ -91,7 +91,7 @@ public class Tournament implements CORE {
     public String getReserve() {
         String ss = "";
         for (Champion temp : championList) {
-            if (temp.getState() == ChampionState.WAITING) {
+            if (temp.getStateString().equals("Waiting")) {
 
                 ss += temp.toString();
             }
@@ -128,7 +128,7 @@ public class Tournament implements CORE {
         for (Champion temp : championList)
         {
             if ((temp.getName().equals(nme))) {
-                if (temp.getState() == ChampionState.WAITING) {
+                if (temp.getStateString().equals("Waiting")) {
                     return true;
                 }
             }
@@ -154,8 +154,8 @@ public class Tournament implements CORE {
 
         for (Champion temp : championList) {
             if (temp.getName().equals(nme)) {
-                ChampionState state = temp.getState();
-                if (state != ChampionState.WAITING) {
+                String state = temp.getStateString();
+                if (state != "Waiting") {
                     return 1;
                 }
 
@@ -185,7 +185,7 @@ public class Tournament implements CORE {
         for (Champion temp : championList)
         {
             if (temp.getName().equals(nme)) {
-                if (temp.getState() == ChampionState.ACTIVE) {
+                if (temp.getStateString().equals("Active")) {
                     return true;
                 }
             }
@@ -207,17 +207,16 @@ public class Tournament implements CORE {
     public int retireChampion(String nme) {
         for (Champion temp : championList) {
             if (temp.getName().equals(nme)) {
-                ChampionState state = temp.getState();
-                System.out.println(state.toString());
-                if (state == ChampionState.DEAD) {
+                String state = temp.getStateString();
+                if (state.equals("Dead")) {
                     return 1;
                 }
 
-                if (state == ChampionState.WAITING) {
+                if (state.equals("Waiting")) {
                     return 2;
                 }
 
-                temp.alterState("in reserve");
+                temp.alterState("In reserve");
                 alterTreasury(temp.getEntryFee()/2);
                 return 0;
             }
@@ -235,8 +234,7 @@ public class Tournament implements CORE {
         String ss = "";
         for (Champion temp : championList) // get each item in turn
         {
-            ChampionState state = temp.getState();
-            if (state == ChampionState.ACTIVE) {
+            if (temp.getStateString().equals("Active")) {
                 ss = ss + temp.toString() + "\n";
             }
         }
@@ -315,7 +313,7 @@ public class Tournament implements CORE {
             boolean matchesType = false;
             for (Champion temp : championList)
             {
-                if (temp.getState() == ChampionState.ACTIVE) {
+                if (temp.getStateString().equals("Active")) {
                     if (challengeType.trim().equals("magic")) {
                         matchesType = temp.getType().isMagic();
                     }
@@ -390,29 +388,29 @@ public class Tournament implements CORE {
 //    }
 
     private void setupChampions() {
-        Champion cp0 = new Champion("Ganfrank", 7, true, 400, "transmutation", null, false, ChampionType.WIZARD);
+        Champion cp0 = new Champion("Ganfrank", 7, true, 400, "transmutation", null, "wizard");
         championList.add(cp0);
-        Champion cp1 = new Champion("Rudolf", 6, true, 400, "invisibility", null, false, ChampionType.WIZARD);
+        Champion cp1 = new Champion("Rudolf", 6, true, 400, "invisibility", null, "wizard");
         championList.add(cp1);
-        Champion cp2 = new Champion("Elblond", 1, false, 150, "", "sword", false, ChampionType.WARRIOR);
+        Champion cp2 = new Champion("Elblond", 1, false, 150, "", "sword", "warrior");
         championList.add(cp2);
-        Champion cp3 = new Champion("Flimsi", 2, false, 200, "", "bow", false, ChampionType.WARRIOR);
+        Champion cp3 = new Champion("Flimsi", 2, false, 200, "", "bow", "warrior");
         championList.add(cp3);
-        Champion cp4 = new Champion("Drabina", 7, false, 500, "", "", false, ChampionType.DRAGON);
+        Champion cp4 = new Champion("Drabina", 7, false, 500, "", "", "dragon");
         championList.add(cp4);
-        Champion cp5 = new Champion("Golum", 7, false, 500, "", "sword", true, ChampionType.TALKINGDRAGON);
+        Champion cp5 = new Champion("Golum", 7, false, 500, "", "sword", "talking dragon");
         championList.add(cp5);
-        Champion cp6 = new Champion("Argon", 9, false, 900, "", "mace", false, ChampionType.WARRIOR);
+        Champion cp6 = new Champion("Argon", 9, false, 900, "", "mace", "warrior");
         championList.add(cp6);
-        Champion cp7 = new Champion("Neon", 2, false, 300, "translocation", "", false, ChampionType.WIZARD);
+        Champion cp7 = new Champion("Neon", 2, false, 300, "translocation", "", "wizard");
         championList.add(cp7);
-        Champion cp8 = new Champion("Xenon", 7, false, 500, "", "", true, ChampionType.TALKINGDRAGON);
+        Champion cp8 = new Champion("Xenon", 7, false, 500, "", "", "talking dragon");
         championList.add(cp8);
-        Champion cp9 = new Champion("Atlanta", 5, false, 500, "", "bow", false, ChampionType.WARRIOR);
+        Champion cp9 = new Champion("Atlanta", 5, false, 500, "", "bow", "warrior");
         championList.add(cp9);
-        Champion cp10 = new Champion("Krypton", 8, false, 300, "fireballs", "", false, ChampionType.WIZARD);
+        Champion cp10 = new Champion("Krypton", 8, false, 300, "fireballs", "", "wizard");
         championList.add(cp10);
-        Champion cp11 = new Champion("Hedwig", 1, true, 400, "flying", "", false, ChampionType.WIZARD);
+        Champion cp11 = new Champion("Hedwig", 1, true, 400, "flying", "", "warrior");
         championList.add(cp11);
 
     }
@@ -484,7 +482,7 @@ public class Tournament implements CORE {
     public boolean teamEmpty() {
     for (Champion temp : championList)
     {
-            if (temp.getState() == ChampionState.ACTIVE) {
+            if (temp.getStateString().equals("Active")) {
                 return false;
             }
         }

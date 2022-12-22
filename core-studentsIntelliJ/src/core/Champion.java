@@ -12,15 +12,19 @@ public class Champion {
     private ChampionType type;
     private ChampionState state;
 
-    public Champion (String nm, int sl, boolean nc, int ef, String ss, String wp, boolean tk, ChampionType tp) {
+    public Champion (String nm, int sl, boolean nc, int ef, String ss, String wp, String tp) {
         name = nm;
         skillLevel = sl;
         necromancer = nc;
         entryFee = ef;
         spellSpeciality = ss;
         weapon = wp;
-        talks = tk;
-        type = tp;
+        chooseType(tp);
+        if (type == ChampionType.TALKINGDRAGON) {
+            talks = true;
+        } else {
+            talks = false;
+        }
         state = ChampionState.WAITING;
     }
 
@@ -59,17 +63,17 @@ public class Champion {
      **/
     public boolean alterState(String st) {
         String lowst = st.toLowerCase();
-        if (lowst == "in reserve") {
+        if (lowst.equals ("in reserve")) {
             state = ChampionState.WAITING;
             return true;
         }
 
-        if (lowst == "active") {
+        if (lowst.equals("active")) {
             state = ChampionState.ACTIVE;
             return true;
         }
 
-        if (lowst == "dead") {
+        if (lowst.equals("dead")) {
             state = ChampionState.DEAD;
             return true;
         }
@@ -77,4 +81,58 @@ public class Champion {
         return false;
 
     }
+
+    /** Makes a champion the provided type
+     * @param st is the string name of the type to make a champion, the following strings types can be given;
+     *  "dragon" makes the champion's type a dragon
+     *  "talking dragon" makes the champion's type a dragon which can talk
+     *  "wizard" makes the champion's type a wizard
+     *  "warrior" makes the champion's type a warrior
+     *
+     *
+     * @return boolean returns true if the state was altered and false if this fails
+     **/
+
+    public boolean chooseType(String st) {
+        String lowst = st.toLowerCase();
+        if (lowst == "dragon") {
+            type = ChampionType.DRAGON;
+            return true;
+        }
+
+        if (lowst == "talking dragon") {
+            type = ChampionType.TALKINGDRAGON;
+            return true;
+        }
+
+        if (lowst == "wizard") {
+            type = ChampionType.WIZARD;
+            return true;
+        }
+
+        if (lowst == "warrior") {
+            type = ChampionType.WARRIOR;
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public String getStateString() {
+        if (state == ChampionState.WAITING) {
+            return "Waiting";
+        }
+
+        if (state == ChampionState.ACTIVE) {
+            return "Active";
+        }
+
+        if (state == ChampionState.DEAD) {
+            return "Dead";
+        }
+
+        return "incorrect";
+    }
+
 }
