@@ -5,8 +5,8 @@ import java.io.*;
  * This class implements the behaviour expected from the CORE
 * as required for 6COM1037 Cwk Assignment - Nov 2022
  * 
- * @author 
- * @version 05/10/22
+ * @author Terrence Corner & Alex Williams
+ * @version 28/12/22
  */
 
 public class Tournament implements CORE {
@@ -93,7 +93,7 @@ public class Tournament implements CORE {
         for (Champion temp : championList) {
             if (temp.getState() == ChampionState.WAITING) {
 
-                ss += temp.toString();
+                ss += temp.toString() + "\n";
             }
         }
 
@@ -172,7 +172,6 @@ public class Tournament implements CORE {
         return -1;
     }
 
-
     /**
      * Returns true if the champion with the name is in
      * the player's team, false otherwise.
@@ -237,12 +236,11 @@ public class Tournament implements CORE {
         {
             ChampionState state = temp.getState();
             if (state == ChampionState.ACTIVE) {
-                ss = ss + temp.toString() + "\n";
+                ss += temp.toString() + "\n";
             }
         }
         return ss;
     }
-
 
 //**********************Challenges************************* 
 
@@ -338,17 +336,15 @@ public class Tournament implements CORE {
                             }
                             return 1;
                         }
-                }
+                    }
 
                     alterTreasury(-challenge.getReward());
+
                     if (isDefeated()) {
                         return 3;
                     }
                     return 2;
-
-
                 }
-
             }
             alterTreasury(-challenge.getReward());
             if (isDefeated()) {
@@ -473,8 +469,6 @@ public class Tournament implements CORE {
         }
         return false;
     }
-
-
 
     /**
      * Returns whether the team is empty or not.
