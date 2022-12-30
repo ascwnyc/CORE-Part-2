@@ -91,7 +91,7 @@ public class Tournament implements CORE {
     public String getReserve() {
         String ss = "";
         for (Champion temp : championList) {
-            if (temp.getStateString().equals("Waiting")) {
+            if (temp.getStateString().equals("In reserve")) {
 
                 ss += temp.toString();
             }
@@ -128,7 +128,7 @@ public class Tournament implements CORE {
         for (Champion temp : championList)
         {
             if ((temp.getName().equals(nme))) {
-                if (temp.getStateString().equals("Waiting")) {
+                if (temp.getStateString().equals("In reserve")) {
                     return true;
                 }
             }
@@ -155,7 +155,7 @@ public class Tournament implements CORE {
         for (Champion temp : championList) {
             if (temp.getName().equals(nme)) {
                 String state = temp.getStateString();
-                if (state != "Waiting") {
+                if (state != "In reserve") {
                     return 1;
                 }
 
@@ -212,7 +212,7 @@ public class Tournament implements CORE {
                     return 1;
                 }
 
-                if (state.equals("Waiting")) {
+                if (state.equals("In reserve")) {
                     return 2;
                 }
 
@@ -309,19 +309,20 @@ public class Tournament implements CORE {
     public int fightChallenge(int chalNo) {
         if (isChallenge(chalNo)) {
             Challenge challenge = challengeList.get(chalNo-1);
-            String challengeType = challenge.getType().toString().toLowerCase();
+            String challengeType = challenge.getTypeString();
             boolean matchesType = false;
             for (Champion temp : championList)
             {
+                String chal = challengeType;
                 if (temp.getStateString().equals("Active")) {
-                    if (challengeType.trim().equals("magic")) {
-                        matchesType = temp.getType().isMagic();
+                    if (chal.equals("Magic")) {
+                        matchesType = temp.isMagic();
                     }
-                    if (challengeType.trim().equals("fight")) {
-                        matchesType = temp.getType().isFight();
+                    if (chal.equals("Fight")) {
+                        matchesType = temp.isFight();
                     }
-                    if (challengeType.trim().equals("mystery")) {
-                        matchesType = temp.getType().isMystery();
+                    if (chal.equals("Mystery")) {
+                        matchesType = temp.isMystery();
                     }
 
                     if (matchesType) {
@@ -423,29 +424,29 @@ public class Tournament implements CORE {
         else {
             reset = false;
         }
-        Challenge ch0 = new Challenge(ChallengeType.MAGIC, "Borg", 3, 100, reset);
+        Challenge ch0 = new Challenge("Magic", "Borg", 3, 100, reset);
         challengeList.add(ch0);
-        Challenge ch1 = new Challenge(ChallengeType.FIGHT, "Huns", 3, 120, false);
+        Challenge ch1 = new Challenge("Fight", "Huns", 3, 120, false);
         challengeList.add(ch1);
-        Challenge ch2 = new Challenge(ChallengeType.MYSTERY, "Ferengi", 3, 150, false);
+        Challenge ch2 = new Challenge("Mystery", "Ferengi", 3, 150, false);
         challengeList.add(ch2);
-        Challenge ch3 = new Challenge(ChallengeType.MAGIC, "Vandal", 9, 200, false);
+        Challenge ch3 = new Challenge("Magic", "Vandal", 9, 200, false);
         challengeList.add(ch3);
-        Challenge ch4 = new Challenge(ChallengeType.MYSTERY, "Borg", 7, 90, false);
+        Challenge ch4 = new Challenge("Mystery", "Borg", 7, 90, false);
         challengeList.add(ch4);
-        Challenge ch5 = new Challenge(ChallengeType.FIGHT, "Goth", 8, 45, false);
+        Challenge ch5 = new Challenge("Fight", "Goth", 8, 45, false);
         challengeList.add(ch5);
-        Challenge ch6 = new Challenge(ChallengeType.MAGIC, "Frank", 10, 200, false);
+        Challenge ch6 = new Challenge("Magic", "Frank", 10, 200, false);
         challengeList.add(ch6);
-        Challenge ch7 = new Challenge(ChallengeType.FIGHT, "Sith", 10, 170, false);
+        Challenge ch7 = new Challenge("Fight", "Sith", 10, 170, false);
         challengeList.add(ch7);
-        Challenge ch8 = new Challenge(ChallengeType.MYSTERY, "Cardashian", 9, 300, false);
+        Challenge ch8 = new Challenge("Mystery", "Cardashian", 9, 300, false);
         challengeList.add(ch8);
-        Challenge ch9 = new Challenge(ChallengeType.FIGHT, "Jute", 2, 300, false);
+        Challenge ch9 = new Challenge("Fight", "Jute", 2, 300, false);
         challengeList.add(ch9);
-        Challenge ch10 = new Challenge(ChallengeType.MAGIC, "Celt", 2, 250, false);
+        Challenge ch10 = new Challenge("Magic", "Celt", 2, 250, false);
         challengeList.add(ch10);
-        Challenge ch11 = new Challenge(ChallengeType.MYSTERY, "Celt", 1, 250, false);
+        Challenge ch11 = new Challenge("Mystery", "Celt", 1, 250, false);
         challengeList.add(ch11);
     }
 

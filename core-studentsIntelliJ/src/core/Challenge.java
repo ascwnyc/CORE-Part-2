@@ -10,12 +10,12 @@ public class Challenge {
 
     private int challengeNo;
 
-    public Challenge(ChallengeType ty, String en, int sr, int rw, boolean reset) {
+    public Challenge(String ty, String en, int sr, int rw, boolean reset) {
         if (reset) {
             challNo = 1;
         }
         challengeNo = challNo++;
-        type = ty;
+        chooseType(ty);
         enemy = en;
         skillRequired = sr;
         reward = rw;
@@ -33,12 +33,37 @@ public class Challenge {
         return type;
     }
 
+    public String getTypeString() {
+        return type.toString().trim();
+    }
+
     public int getSkillRequired() {
         return skillRequired;
     }
 
     public int getReward() {
         return reward;
+    }
+
+    public boolean chooseType(String st) {
+        String lowst = st.toLowerCase().trim();
+        if (lowst.equals("magic")) {
+            type = ChallengeType.MAGIC;
+            return true;
+        }
+
+        if (lowst.equals("fight")) {
+            type = ChallengeType.FIGHT;
+            return true;
+        }
+
+        if (lowst.equals("mystery")) {
+            type = ChallengeType.MYSTERY;
+            return true;
+        }
+
+        return false;
+
     }
 
 

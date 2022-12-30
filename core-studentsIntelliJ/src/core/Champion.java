@@ -48,9 +48,6 @@ public class Champion {
         return skillLevel;
     }
 
-    public ChampionType getType() {
-        return type;
-    }
 
     /** Changes the champion's state to that of the string provided (if they are in the team)
      * @param st is the string name of the state to change the champion, the following strings change the states in these ways;
@@ -120,19 +117,17 @@ public class Champion {
     }
 
     public String getStateString() {
-        if (state == ChampionState.WAITING) {
-            return "Waiting";
-        }
+        return state.toString().trim();
+    }
 
-        if (state == ChampionState.ACTIVE) {
-            return "Active";
-        }
-
-        if (state == ChampionState.DEAD) {
-            return "Dead";
-        }
-
-        return "incorrect";
+    public boolean isMagic(){
+        return type.isMagic();
+    }
+    public boolean isFight(){
+        return type.isFight();
+    }
+    public boolean isMystery(){
+        return type.isMystery();
     }
 
 }
