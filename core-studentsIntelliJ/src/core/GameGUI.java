@@ -113,39 +113,44 @@ public class GameGUI
         }
     }
 
+    // Rewrites enumerated method of how Enter Champion handler works.
     private class FightHandler implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
         {
-            listing.setVisible(true);
-            int result = -1;
-            String output = "";
-            int number = Integer.parseInt(JOptionPane.showInputDialog("Challenge number ?: "));
+            try {
+                listing.setVisible(true);
+                int result = -1;
+                String output = "";
 
-            result = gp.fightChallenge(number);
+                // Returns exception error when null string/non-integer given. Need to reimplement.
+                int number = Integer.parseInt(JOptionPane.showInputDialog("Challenge number ?: "));
 
-            if (result ==0)
-            {
-                output = "Challenge #" + number + " was won, reward added to Treasury.";
-            }
-            else if (result ==1)
-            {
-                output = "Challenge #" + number + " was lost due to battle skills, reward was paid to the opponent and the champion has perished.";
-            }
-            else if (result ==2)
-            {
-                output = "Challenge #" + number + " was lost as there was no suitable champion available. Rewards have been deducted.";
-            }
-            else if (result ==3) {
-                output = "Challenge #" + number + " was lost. You have been completely defeated (no money and no champions to withdraw).";
-            }
-            else
-            {
-                output = "Challenge #" + number + " is not a valid input";
-            }
+                result = gp.fightChallenge(number);
 
-            output = "\n" + output + "\nTreasury = " + gp.getMoney();
-            JOptionPane.showMessageDialog(myFrame,output);
+                if (result ==0)
+                {
+                    output = "Challenge #" + number + " was won, reward added to Treasury.";
+                }
+                else if (result ==1)
+                {
+                    output = "Challenge #" + number + " was lost due to battle skills, reward was paid to the opponent and the champion has perished.";
+                }
+                else if (result ==2)
+                {
+                    output = "Challenge #" + number + " was lost as there was no suitable champion available. Rewards have been deducted.";
+                }
+                else if (result ==3) {
+                    output = "Challenge #" + number + " was lost. You have been completely defeated (no money and no champions to withdraw).";
+                }
+                else
+                {
+                    output = "Challenge #" + number + " is not a valid input.";
+                }
+
+                output = "\n" + output + "\nTreasury = " + gp.getMoney();
+                JOptionPane.showMessageDialog(myFrame,output);
+            } catch(Exception e1) {}
         }
     }
 
