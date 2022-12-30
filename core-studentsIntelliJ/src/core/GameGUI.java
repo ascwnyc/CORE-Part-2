@@ -1,8 +1,9 @@
 package core;
-import java.awt.*;
+
 import javax.swing.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Provide a GUI interface for the game
@@ -53,6 +54,7 @@ public class GameGUI
         fightBtn.addActionListener(new FightHandler());
         viewBtn.addActionListener(new ViewHandler());
         eastPanel.add(quitBtn);
+        quitBtn.addActionListener(new QuitHandler());
         fightBtn.setVisible(true);
         viewBtn.setVisible(true);
         clearBtn.setVisible(true);
@@ -166,6 +168,12 @@ public class GameGUI
         { 
             listing.setText("");
             listing.setVisible(false);            
+        }
+    }
+
+    private class QuitHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
         }
     }
 
