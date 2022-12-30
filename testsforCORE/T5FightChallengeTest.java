@@ -249,7 +249,7 @@ public class T5FightChallengeTest {
         int actual = game.fightChallenge(1);
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void warriorFacingMysteryNotAllowedMoneyDeducted() {
         int expected = -50;
@@ -258,8 +258,106 @@ public class T5FightChallengeTest {
         int actual = game.getMoney();
         assertEquals(expected, actual);
     }
-    
-    //Dragons - write your own tests
+
+    //Dragon
+    //Dragon facing magic - not allowed
+    @Test
+    public void dragonFacingMagicNotAllowed() {
+        int expected = 2;
+        game.enterChampion("Golum");
+        game.fightChallenge(4);
+        int actual = game.fightChallenge(1);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingMagicNotAllowedMoneyDeducted() {
+        int expected = 300;
+        game.enterChampion("Golum");
+        game.fightChallenge(4);
+        int actual = game.getMoney();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingFightAllowedWinsMoneyAdded() {
+        int expected = 220;
+        game.enterChampion("Argon");
+        game.fightChallenge(2);
+        int actual = game.getMoney();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingFightAllowedLosesOnSkill() {
+        int expected = 1;
+        game.enterChampion("Golum");
+        int actual = game.fightChallenge(9);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dragonFacingFightAllowedLosesMoneyDeducted() {
+        int expected = 200;
+        game.enterChampion("Golum");
+        game.fightChallenge(9);
+        int actual = game.getMoney();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void notTalkingDragonFacingMysteryNotAllowedMoneyDeducted() {
+        int expected = 350;
+        game.enterChampion("Drabina");
+        game.fightChallenge(3);
+        int actual = game.getMoney();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void talkingDragonMysteryFightSuccess() {
+        int expected = 0;
+        game.enterChampion("Golum");
+        int actual = game.fightChallenge(12);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void notTalkingDragonMysteryFightFail() {
+        int expected = 2;
+        game.enterChampion("Drabina");
+        int actual = game.fightChallenge(12);
+        assertEquals(expected, actual);
+    }
+
+    //Invalid challenge
+
+
+    @Test
+    public void invalidChallengeNumberTooHigh() {
+        int expected = -1;
+        game.enterChampion("Drabina");
+        int actual = game.fightChallenge(13);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void invalidChallengeNumberTooLow() {
+        int expected = -1;
+        game.enterChampion("Drabina");
+        int actual = game.fightChallenge(-1);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void invalidChallengeNumberZero() {
+        int expected = -1;
+        game.enterChampion("Drabina");
+        int actual = game.fightChallenge(0);
+        assertEquals(expected, actual);
+    }
+
+
     
   
     

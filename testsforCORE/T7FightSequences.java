@@ -161,12 +161,24 @@ public class T7FightSequences {
 // Add your own tests
 
     @Test
-    public void secondChampionIsAvailable() {
+    public void secondChampionIsSuited() {
         int expected = 0;
         game.enterChampion("Xenon");
         game.enterChampion("Krypton");
-        int actual = game.fightChallenge(4);  //win fight as Rudolf
+        int actual = game.fightChallenge(1);  //win fight as krypton
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void defeatedZeroMoney() {
+        int expected = 3;
+        game.enterChampion("Hedwig");
+        game.enterChampion("Neon");
+        game.fightChallenge(7);
+        game.fightChallenge(1);
+        int actual = game.fightChallenge(2);
+        assertEquals(expected, actual);
+    }
+
 
 }

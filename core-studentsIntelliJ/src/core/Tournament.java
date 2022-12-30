@@ -249,7 +249,7 @@ public class Tournament implements CORE {
      * @return true if the number represents a challenge
      **/
     public boolean isChallenge(int num) {
-            if (num < challengeList.size() && num > 0) {
+            if (num < challengeList.size() +1 && num > 0) {
                 return true;
             }
         return false;
@@ -309,51 +309,47 @@ public class Tournament implements CORE {
             Challenge challenge = challengeList.get(chalNo-1);
             String challengeType = challenge.getTypeString();
             boolean matchesType = false;
-            for (Champion temp : championList)
-            {
-                String chal = challengeType;
-                if (temp.getStateString().equals("Active")) {
-                    if (chal.equals("Magic")) {
-                        matchesType = temp.isMagic();
-                    }
-                    if (chal.equals("Fight")) {
-                        matchesType = temp.isFight();
-                    }
-                    if (chal.equals("Mystery")) {
-                        matchesType = temp.isMystery();
-                    }
+            for (Champion temp : championList) {
+                if (!matchesType) {
+                    String chal = challengeType;
+                    if (temp.getStateString().equals("Active")) {
+                        if (chal.equals("Magic")) {
+                            matchesType = temp.isMagic();
+                        }
+                        if (chal.equals("Fight")) {
+                            matchesType = temp.isFight();
+                        }
+                        if (chal.equals("Mystery")) {
+                            matchesType = temp.isMystery();
+                        }
 
-                    if (matchesType) {
-                        if (temp.getSkillLevel() >= challenge.getSkillRequired()) {
-                            alterTreasury(challenge.getReward());
-                            return 0;
-                        } else {
-                            alterTreasury(-challenge.getReward());
-                            temp.alterState("dead");
-                            if (isDefeated()) {
-                                return 3;
+                        if (matchesType) {
+                            if (temp.getSkillLevel() >= challenge.getSkillRequired()) {
+                                alterTreasury(challenge.getReward());
+                                return 0;
+                            } else {
+                                alterTreasury(-challenge.getReward());
+                                temp.alterState("dead");
+                                if (isDefeated()) {
+                                    return 3;
+                                }
+                                return 1;
                             }
-                            return 1;
+
                         }
                     }
+                }
+            }
 
-                    alterTreasury(-challenge.getReward());
-
+            alterTreasury(-challenge.getReward());
                     if (isDefeated()) {
                         return 3;
                     }
                     return 2;
                 }
-            }
-            alterTreasury(-challenge.getReward());
-            if (isDefeated()) {
-                return 3;
-            }
 
-            return 2;
+            return -1;
 
-        }
-        return -1;
     }
 
 //// These methods are not needed until Task 4.4
@@ -484,6 +480,26 @@ public class Tournament implements CORE {
 
     return true;
 }
+
+    /**
+     * Returns true if the champion with the name is in
+     * the player's team, false otherwise.
+     *
+     * @param nme is the name of the champion
+     * @return true if the champion with the name
+     * is in the player's team, false otherwise.
+     **/
+    public boolean isDead(String nme) {
+        for (Champion temp : championList)
+        {
+            if (temp.getName().equals(nme)) {
+                if (temp.getStateString().equals("dead")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 }
 
