@@ -1,11 +1,7 @@
 package core;
 
-public class Champion {
-
-    private String name;
-    private int skillLevel;
+public class Champion extends Item {
     private boolean necromancer;
-    private int entryFee;
     private String spellSpeciality;
     private String weapon;
     private boolean talks;
@@ -13,10 +9,8 @@ public class Champion {
     private ChampionState state;
 
     public Champion (String nm, int sl, boolean nc, int ef, String ss, String wp, String tp) {
-        name = nm;
-        skillLevel = sl;
+        super(nm,sl,ef);
         necromancer = nc;
-        entryFee = ef;
         spellSpeciality = ss;
         weapon = wp;
         chooseType(tp);
@@ -29,25 +23,13 @@ public class Champion {
     }
 
     public String toString() {
-        return("\n Name: " + name + "\nSkill Level: " + skillLevel + "\nNecromancer: " + necromancer + "\nEntry Fee: " + entryFee + "\nSpell Speciality: " + spellSpeciality + "\nWeapon: " + weapon + "\nTalks: " + talks + "\nType: " + type.toString() + "\nState: " + state.toString());
+        return("\n Name: " + super.getName() + "\nSkill Level: " + super.getSkill() + "\nNecromancer: " + necromancer + "\nEntry Fee: " + super.getGulden() + "\nSpell Speciality: " + spellSpeciality + "\nWeapon: " + weapon + "\nTalks: " + talks + "\nType: " + type.toString() + "\nState: " + state.toString());
     }
 
-    public String getName() {
-        return name;
-    }
 
     public ChampionState getState() {
         return state;
     }
-
-    public int getEntryFee() {
-        return entryFee;
-    }
-
-    public int getSkillLevel() {
-        return skillLevel;
-    }
-
 
     /** Changes the champion's state to that of the string provided (if they are in the team)
      * @param st is the string name of the state to change the champion, the following strings change the states in these ways;
