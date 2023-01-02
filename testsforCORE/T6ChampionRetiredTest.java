@@ -119,4 +119,39 @@ public class T6ChampionRetiredTest {
         assertFalse(actual);
     }
     //can't yet do test for withdraw dead champion
+
+    @Test
+    public void retiredChampionDead(){
+        game.fightChallenge(7);
+        game.retireChampion("Ganfrank");
+        String list = game.getReserve();
+        boolean actual = list.contains("Ganfrank");
+        assertFalse(actual);
+    }
+
+
+    @Test
+    public void retireDeadChampionTestMoneyNotDeducted(){
+        int expected = 1000 -(400+150+300) -45;
+        game.fightChallenge(6);
+        game.retireChampion("Ganfrank");
+        int actual = game.getMoney();
+        assertEquals(expected, actual);
+    }
+    @Test
+    public void retireDeadChampionNotInTeam(){
+        game.fightChallenge(6);
+        game.retireChampion("Ganfrank");
+        boolean actual = game.isInPlayersTeam("Gankfrank");
+        assertFalse(actual);
+    }
+
+    @Test
+    public void retireChampionTwice(){
+        int expected = 2;
+        game.retireChampion("Ganfrank");
+        game.retireChampion("Ganfrank");
+        int actual = game.retireChampion("Ganfrank");
+        assertEquals(expected, actual);
+    }
 }
