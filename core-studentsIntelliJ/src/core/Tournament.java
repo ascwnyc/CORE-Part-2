@@ -413,13 +413,31 @@ public class Tournament implements CORE {
 //       return null;
 //    }
 //
-//    /**
-//     * reads challenges from a comma-separated textfile and stores
-//     * @param filename of the comma-separated textfile storing information about challenges
-//     */
-//    public void readChallenges(String filename){
-//
-//    }
+    /**
+     * reads challenges from a comma-separated textfile and stores
+     * @param filename of the comma-separated textfile storing information about challenges
+     */
+    public void readChallenges(String filename){
+        try {
+            // Initialize line reader.
+            BufferedReader in = new BufferedReader(new FileReader(filename));
+            String str;
+
+            // While reading a valid line, split string into individual arguments.
+            // Then, populate challengeList with Challenge objects where the fields are the arguments from split up string.
+            while((str = in.readLine()) != null) {
+                String[] arg = str.split(",");
+                championChallengeList.add(new Challenge(arg[0], arg[1], Integer.parseInt(arg[2]), Integer.parseInt(arg[3]), Boolean.parseBoolean(arg[4])));
+            }
+            in.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println(e); // Catch if invalid filename supplied.
+        }
+        catch (IOException e) {
+            System.out.println(e); // Catch IO exception.
+        }
+    }
 
     private void setupChampions() {
         Champion cp0 = new Champion("Ganfrank", 7, true, 400, "transmutation", null, "wizard");

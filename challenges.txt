@@ -1,0 +1,12 @@
+Magic,Borg,3,100,reset
+Fight,Huns,3,120,false
+Mystery,Ferengi,3,150,false
+Magic,Vandal,9,200,false
+Mystery,Borg,7,90,false
+Fight,Goth,8,45,false
+Magic,Frank,10,170,false
+Fight,Sith,10,170,false
+Mystery,Cardashian,9,300,false
+Fight,Jute,2,300,false
+Magic,Celt,2,250,false
+Mystery,Celt,1,250,false
