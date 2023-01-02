@@ -99,6 +99,7 @@ public class Tournament implements CORE {
         return ss;
     }
 
+
     /**
      * Returns details of any champion with the given name
      *
@@ -489,7 +490,7 @@ public class Tournament implements CORE {
      * @param gulden is the amount of gulden to alter by, positive gulden increases the treasury and negative gulden decreases the treasury.
      *
      */
-    public void alterTreasury(int gulden) {
+    private void alterTreasury(int gulden) {
         treasury = treasury + gulden;
     }
 
@@ -499,7 +500,7 @@ public class Tournament implements CORE {
      * @param gulden is the amount of gulden to alter by, positive gulden increases the treasury and negative gulden decreases the treasury.
      * @return true if there is enough gulden left in the treasury to deduct the amount by, otherwise returns false
      */
-    public boolean enoughGuldun(int gulden) {
+    private boolean enoughGuldun(int gulden) {
         if (treasury + gulden >= 0) {
             return true;
         }
@@ -511,7 +512,7 @@ public class Tournament implements CORE {
      *
      * @return true if the team contains no champions, otherwise returns false
      */
-    public boolean teamEmpty() {
+    private boolean teamEmpty() {
         for (Item temp : championChallengeList)
         {
             if (temp instanceof Champion) {

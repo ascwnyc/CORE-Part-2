@@ -3,9 +3,6 @@ package core;
 public class Challenge extends Item {
     private static int challNo = 1;
     private ChallengeType type;
-    private String enemy;
-    private int skillRequired;
-    private int reward;
 
     private int challengeNo;
 
@@ -27,26 +24,19 @@ public class Challenge extends Item {
         return challengeNo;
     }
 
-    public ChallengeType getType() {
-        return type;
-    }
-
     public String getTypeString() {
         return type.toString().trim();
     }
 
-    public int getSkillRequired() {
-        return skillRequired;
-    }
-
-    public int getReward() {
-        return reward;
-    }
-
-    public int getStaticChallNo() {
-        return challNo;
-    }
-
+    /** Changes the challenge's type to that of the string provided
+     * @param st is the string name of the type to change the challenge, the following strings change the type in these ways;
+     *  "magic" changes challenge type to MAGIC
+     *  "fight" changes the challenge type to FIGHT
+     *  "mystery" changes the challenge type to MYSTERY
+     *
+     *
+     * @return boolean returns true if the type was altered and false if this fails
+     **/
     public boolean chooseType(String st) {
         String lowst = st.toLowerCase().trim();
         if (lowst.equals("magic")) {
