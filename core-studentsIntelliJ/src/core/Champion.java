@@ -13,22 +13,19 @@ public class Champion extends Item {
         necromancer = nc;
         spellSpeciality = ss;
         weapon = wp;
-        chooseType(tp);
-        if (type == ChampionType.TALKINGDRAGON) {
-            talks = true;
-        } else {
-            talks = false;
+
+        if (chooseType(tp)) {
+            if (type == ChampionType.TALKINGDRAGON) {
+                talks = true;
+            } else {
+                talks = false;
+            }
+            state = ChampionState.WAITING;
         }
-        state = ChampionState.WAITING;
     }
 
     public String toString() {
         return("\n Name: " + super.getName() + "\nSkill Level: " + super.getSkill() + "\nNecromancer: " + necromancer + "\nEntry Fee: " + super.getGulden() + "\nSpell Speciality: " + spellSpeciality + "\nWeapon: " + weapon + "\nTalks: " + talks + "\nType: " + type.toString() + "\nState: " + state.toString());
-    }
-
-
-    public ChampionState getState() {
-        return state;
     }
 
     /** Changes the champion's state to that of the string provided (if they are in the team)

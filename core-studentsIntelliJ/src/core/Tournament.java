@@ -46,13 +46,13 @@ public class Tournament implements CORE {
      */
     public String toString() {
         String defeated;
-        if (!isDefeated()){
-            defeated = "Is OK";}
-        else {
+        if (!isDefeated()) {
+            defeated = "Is OK";
+        } else {
             defeated = "Defeated";
         }
         String team = getTeam();
-        if (team == ""){
+        if (team == "") {
             team = "No champions";
         }
         return "\n Player name: " + playerName + "\n Treasury: " + Integer.toString(treasury) + "\n Defeated?: " + defeated + "\n Team: " + team;
@@ -100,20 +100,30 @@ public class Tournament implements CORE {
     }
 
     /**
+     * Returns the champion object of a champion with the given name
+     *
+     * @param nme is the name of the champion
+     * @return champion with the given name
+     * @throws NullPointerException
+     **/
+    private Champion getChampionObject(String nme) throws NullPointerException {
+        for (Item temp : championChallengeList) {
+            if (temp.getName().equals(nme) && temp instanceof Champion) {
+                return (Champion) temp;
+            }
+        }
+        throw new NullPointerException();
+    }
+
+
+    /**
      * Returns details of any champion with the given name
      *
      * @param nme is the name of the champion
      * @return details of any champion with the given name
      **/
     public String getChampionDetails(String nme) {
-        String ss = "";
-        for (Item temp : championChallengeList)
-        {
-            if (temp.getName().equals(nme)) {
-                ss = temp.toString();
-            }
-        }
-        return ss;
+        return getChampionObject(nme).toString();
     }
 
     /**
@@ -123,18 +133,18 @@ public class Tournament implements CORE {
      * @return true if champion in reserve, false otherwise
      */
     public boolean isInReserve(String nme) {
-
-        for (Item temp : championChallengeList)
+        try
         {
-            if (temp.getName().equals(nme) && temp instanceof Champion) {
-                Champion champ = (Champion) temp;
-                if (champ.getStateString().equals("In reserve")) {
-                    return true;
-                }
-            }
+            Champion champ = getChampionObject(nme);
+        }
+        catch (NullPointerException e){
+            return false;
+        }
+        if (getChampionObject(nme).getStateString().equals("In reserve")) {
+            return true;
         }
         return false;
-    }
+        }
 
     // ***************** Players Team************************
 
@@ -151,26 +161,27 @@ public class Tournament implements CORE {
      * @return as shown above
      **/
     public int enterChampion(String nme) {
-
-        for (Item temp : championChallengeList) {
-            if (temp.getName().equals(nme) && temp instanceof Champion) {
-                Champion champ = (Champion)temp;
-                String state = champ.getStateString();
-                if (state != "In reserve") {
-                    return 1;
-                }
-
-                int gulden = temp.getGulden();
-                if (enoughGuldun(-gulden)) {
-                    alterTreasury(-gulden);
-                    champ.alterState("active");
-                    return 0;
-                }
-
-                return 2;
-            }
+        try
+        {
+            Champion champ = getChampionObject(nme);
         }
-        return -1;
+        catch (NullPointerException e){
+            return -1;
+        }
+
+        Champion champ = getChampionObject(nme);
+        String state = champ.getStateString();
+        if (state != "In reserve") {
+            return 1;
+                }
+
+        int gulden = champ.getGulden();
+        if (enoughGuldun(-gulden)) {
+            alterTreasury(-gulden);
+            champ.alterState("active");
+            return 0;
+        }
+        return 2;
     }
 
     /**
@@ -182,15 +193,17 @@ public class Tournament implements CORE {
      * is in the player's team, false otherwise.
      **/
     public boolean isInPlayersTeam(String nme) {
-        for (Item temp : championChallengeList)
+        try
         {
-            if (temp.getName().equals(nme) && temp instanceof Champion) {
-                Champion champ = (Champion)temp;
-                if (champ.getStateString().equals("Active")) {
-                    return true;
-                }
-            }
+            Champion champ = getChampionObject(nme);
         }
+        catch (NullPointerException e){
+            return false;
+        }
+        Champion champ = getChampionObject(nme);
+        if (champ.getStateString().equals("Active")) {
+            return true;
+                }
         return false;
     }
 
@@ -206,24 +219,26 @@ public class Tournament implements CORE {
      * @return as shown above
      **/
     public int retireChampion(String nme) {
-        for (Item temp : championChallengeList) {
-            if (temp.getName().equals(nme) && temp instanceof Champion) {
-                Champion champ = (Champion) temp;
-                String state = champ.getStateString();
-                if (state.equals("Dead")) {
-                    return 1;
-                }
-
-                if (state.equals("In reserve")) {
-                    return 2;
-                }
-
-                champ.alterState("In reserve");
-                alterTreasury(temp.getGulden()/2);
-                return 0;
-            }
+        try
+        {
+            Champion champ = getChampionObject(nme);
         }
-        return -1;
+        catch (NullPointerException e){
+            return -1;
+        }
+        Champion champ = getChampionObject(nme);
+        String state = champ.getStateString();
+        if (state.equals("Dead")) {
+            return 1;
+        }
+
+        if (state.equals("In reserve")) {
+            return 2;
+        }
+
+        champ.alterState("In reserve");
+        alterTreasury(champ.getGulden()/2);
+        return 0;
     }
 
     /**
@@ -258,6 +273,11 @@ public class Tournament implements CORE {
         return false;
     }
 
+    /**
+     * Returns the number of challenges available
+     *
+     * @return the number of challenges
+     **/
     private int getNoOfChallenges() {
         int challenges = 0;
         for (Item temp : championChallengeList) {
@@ -265,7 +285,6 @@ public class Tournament implements CORE {
                 challenges++;
             }
         }
-
         return challenges;
     }
 
@@ -290,14 +309,16 @@ public class Tournament implements CORE {
     }
 
     /**
-     * Provides a String representation of an challenge given by
-     * the challenge number
+     * Provides the challenge object given by
+     * its challenge number
      *
+     * @precondition The isChallenge() method should be called before this to prevent NullPointerException otherwise try catch must be used
      * @param num the number of the challenge
-     * @return returns a String representation of a challenge given by
+     * @return returns a challenge object given by
      * the challenge number
+     * @throws NullPointerException
      **/
-    public Challenge getChallengeObj(int num) {
+    private Challenge getChallengeObject(int num) throws NullPointerException {
         if (isChallenge(num)) {
             for (Item temp : championChallengeList) {
                 if ((temp instanceof Challenge && ((Challenge)temp).getChallengeNo() == num)) {
@@ -305,7 +326,7 @@ public class Tournament implements CORE {
                 }
             }
         }
-        return null;
+        throw new NullPointerException();
     }
 
     /**
@@ -314,9 +335,7 @@ public class Tournament implements CORE {
      * @return returns a String representation of all challenges
      **/
     public String getAllChallenges() {
-
         String ss = "";
-        int challenges = 0;
         for (Item temp : championChallengeList) {
             if (temp instanceof Challenge) {
                 ss = ss + temp.toString();
@@ -344,11 +363,11 @@ public class Tournament implements CORE {
      */
     public int fightChallenge(int chalNo) {
         if (isChallenge(chalNo)) {
-            Challenge challenge = getChallengeObj(chalNo);
+            Challenge challenge = getChallengeObject(chalNo);
             String challengeType = challenge.getTypeString();
             boolean matchesType = false;
             for (Item temp : championChallengeList) {
-                if (!matchesType && temp instanceof Champion && (((Champion)temp).getStateString().equals("Active"))) {
+                if (temp instanceof Champion && (((Champion)temp).getStateString().equals("Active"))) {
                     String chal = challengeType;
                     Champion champ = (Champion) temp;
 
@@ -364,7 +383,6 @@ public class Tournament implements CORE {
                         }
 
                         if (matchesType) {
-                            int hi = temp.getSkill();
                             if (temp.getSkill() >= challenge.getSkill()) {
                                 alterTreasury(challenge.getGulden());
                                 return 0;
@@ -489,7 +507,7 @@ public class Tournament implements CORE {
      * @param gulden is the amount of gulden to alter by, positive gulden increases the treasury and negative gulden decreases the treasury.
      *
      */
-    public void alterTreasury(int gulden) {
+    private void alterTreasury(int gulden) {
         treasury = treasury + gulden;
     }
 
@@ -499,7 +517,7 @@ public class Tournament implements CORE {
      * @param gulden is the amount of gulden to alter by, positive gulden increases the treasury and negative gulden decreases the treasury.
      * @return true if there is enough gulden left in the treasury to deduct the amount by, otherwise returns false
      */
-    public boolean enoughGuldun(int gulden) {
+    private boolean enoughGuldun(int gulden) {
         if (treasury + gulden >= 0) {
             return true;
         }
@@ -511,7 +529,7 @@ public class Tournament implements CORE {
      *
      * @return true if the team contains no champions, otherwise returns false
      */
-    public boolean teamEmpty() {
+    private boolean teamEmpty() {
         for (Item temp : championChallengeList)
         {
             if (temp instanceof Champion) {
@@ -545,7 +563,6 @@ public class Tournament implements CORE {
         }
         return false;
     }
-
 }
 
 
