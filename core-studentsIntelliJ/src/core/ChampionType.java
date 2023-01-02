@@ -24,7 +24,7 @@ public enum ChampionType implements Serializable
 
     public String toString()
     {
-        return type;
+        return "\nType: " + type + "\nMagic?: " + magic + "\nFight?: " + fight + "\nMystery?: " + mystery;
     }
     public boolean isMagic(){
         return magic;
