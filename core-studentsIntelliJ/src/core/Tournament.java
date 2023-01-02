@@ -99,6 +99,7 @@ public class Tournament implements CORE {
         return ss;
     }
 
+
     /**
      * Returns the champion object of a champion with the given name
      *
