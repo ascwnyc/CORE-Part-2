@@ -427,7 +427,7 @@ public class Tournament implements CORE {
             // Then, populate challengeList with Challenge objects where the fields are the arguments from split up string.
             while((str = in.readLine()) != null) {
                 String[] arg = str.split(",");
-                championChallengeList.add(new Challenge(arg[0], arg[1], Integer.parseInt(arg[2]), Integer.parseInt(arg[3]), Boolean.parseBoolean(arg[4])));
+                championChallengeList.add(new Challenge(arg[0], arg[1], Integer.parseInt(arg[2]), Integer.parseInt(arg[3])));
             }
             in.close();
         }
@@ -468,37 +468,12 @@ public class Tournament implements CORE {
     }
 
     private void setupChallenges() {
-        boolean reset;
+        // Reset's challengeNo. Provided tests don't reset incrementation so must be reset here.
         if (championChallengeList.size() == 0) {
-            reset = true;
+            Challenge.resetChallengeNo();
         }
-        else {
-            reset = false;
-        }
-        Challenge ch0 = new Challenge("Magic", "Borg", 3, 100, reset);
-        championChallengeList.add(ch0);
-        Challenge ch1 = new Challenge("Fight", "Huns", 3, 120, false);
-        championChallengeList.add(ch1);
-        Challenge ch2 = new Challenge("Mystery", "Ferengi", 3, 150, false);
-        championChallengeList.add(ch2);
-        Challenge ch3 = new Challenge("Magic", "Vandal", 9, 200, false);
-        championChallengeList.add(ch3);
-        Challenge ch4 = new Challenge("Mystery", "Borg", 7, 90, false);
-        championChallengeList.add(ch4);
-        Challenge ch5 = new Challenge("Fight", "Goth", 8, 45, false);
-        championChallengeList.add(ch5);
-        Challenge ch6 = new Challenge("Magic", "Frank", 10, 200, false);
-        championChallengeList.add(ch6);
-        Challenge ch7 = new Challenge("Fight", "Sith", 10, 170, false);
-        championChallengeList.add(ch7);
-        Challenge ch8 = new Challenge("Mystery", "Cardashian", 9, 300, false);
-        championChallengeList.add(ch8);
-        Challenge ch9 = new Challenge("Fight", "Jute", 2, 300, false);
-        championChallengeList.add(ch9);
-        Challenge ch10 = new Challenge("Magic", "Celt", 2, 250, false);
-        championChallengeList.add(ch10);
-        Challenge ch11 = new Challenge("Mystery", "Celt", 1, 250, false);
-        championChallengeList.add(ch11);
+
+        readChallenges("challenges.txt");
     }
 
     /**
