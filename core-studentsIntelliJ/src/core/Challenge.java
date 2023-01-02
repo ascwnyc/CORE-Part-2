@@ -6,14 +6,10 @@ public class Challenge extends Item {
     private String enemy;
     private int skillRequired;
     private int reward;
-
     private int challengeNo;
 
-    public Challenge(String ty, String en, int sr, int rw, boolean reset) {
+    public Challenge(String ty, String en, int sr, int rw) {
         super(en,sr,rw);
-        if (reset) {
-            challNo = 1;
-        }
 
         challengeNo = challNo++;
         chooseType(ty);
@@ -25,6 +21,10 @@ public class Challenge extends Item {
 
     public int getChallengeNo() {
         return challengeNo;
+    }
+
+    public static void resetChallengeNo() {
+        challNo = 1;
     }
 
     public ChallengeType getType() {
