@@ -98,17 +98,17 @@ public class GameUI
                 {
                     System.out.println(tr.toString());
                 }
-//                 else if (choice == 8) // Task 4.4 only
-//                 {
-//                     System.out.println("Write to file");
-//                     tr.saveGame("olenka.txt");
-//                 }
-//                 else if (choice == 9) // Task 4.4 only
-//                 {
-//                     System.out.println("Restore from file");
-//                     CORE tr2= tr.loadGame("olenka.txt");
-//                     System.out.println(tr2.toString());               
-//                 }
+                 else if (choice == 8) // Task 4.4 only
+                 {
+                     System.out.println("Write to file");
+                     tr.saveGame("olenka.txt");
+                 }
+                 else if (choice == 9) // Task 4.4 only
+                 {
+                     System.out.println("Restore from file");
+                     CORE tr2= tr.loadGame("olenka.txt");
+                     System.out.println(tr2.toString());
+                 }
             }     
         }
         catch (IOException e) {System.out.println (e);}   
