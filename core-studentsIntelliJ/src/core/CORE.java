@@ -136,21 +136,21 @@ public interface CORE extends Serializable
   
 //// These methods are not needed until Task 4.4
 //    // ***************   file write/read  *********************
-//    /** Writes whole game to the specified file
-//     * @param fname name of file storing requests
-//     */
-//    public void saveGame(String fname);
-//
-//    /** reads all information about the game from the specified file
-//     * and returns a CORE reference to a Tournament object
-//     * @param fname name of file storing the game
-//     * @return the game (as a Tournament object)
-//     */
-//    public CORE loadGame(String fname);
-//
-//    /**
-//     * reads challenges from a comma-separated textfile and stores
-//     * @param filename of the comma-separated textfile storing information about challenges
-//     */
-//    public void readChallenges(String filename);
+    /** Writes whole game to the specified file
+     * @param fname name of file storing requests
+     */
+    public void saveGame(String fname);
+
+    /** reads all information about the game from the specified file
+     * and returns a CORE reference to a Tournament object
+     * @param fname name of file storing the game
+     * @return the game (as a Tournament object)
+     */
+    public CORE loadGame(String fname);
+
+    /**
+     * reads challenges from a comma-separated textfile and stores
+     * @param filename of the comma-separated textfile storing information about challenges
+     */
+    public void readChallenges(String filename);
 }
