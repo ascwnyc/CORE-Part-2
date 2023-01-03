@@ -1,9 +1,10 @@
 package core;
 
-public class Challenge extends Item {
-    private static int challNo = 1;
-    private ChallengeType type;
+import java.io.Serializable;
 
+public class Challenge extends Item implements Serializable {
+    private ChallengeType type;
+    private static int challNo = 1;
     private int challengeNo;
 
     public Challenge(String ty, String en, int sr, int rw) {
