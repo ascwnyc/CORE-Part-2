@@ -373,12 +373,15 @@ public class Tournament implements CORE {
                     Champion champ = (Champion) temp;
 
                     if (( champ.getStateString().equals("Active"))) {
+
                         if (chal.equals("Magic")) {
                             matchesType = champ.isMagic();
                         }
+
                         if (chal.equals("Fight")) {
                             matchesType = champ.isFight();
                         }
+
                         if (chal.equals("Mystery")) {
                             matchesType = champ.isMystery();
                         }
@@ -387,51 +390,70 @@ public class Tournament implements CORE {
                             if (temp.getSkill() >= challenge.getSkill()) {
                                 alterTreasury(challenge.getGulden());
                                 return 0;
-                            } else {
+                            }
+                            else {
                                 alterTreasury(-challenge.getGulden());
                                 champ.alterState("dead");
+
                                 if (isDefeated()) {
                                     return 3;
                                 }
                                 return 1;
                             }
-
                         }
                     }
                 }
             }
-
             alterTreasury(-challenge.getGulden());
+
             if (isDefeated()) {
                 return 3;
             }
             return 2;
         }
-
         return -1;
-
     }
 
 //// These methods are not needed until Task 4.4
-//    // ***************   file write/read  *********************
-//    /** Writes whole game to the specified file
-//     * @param fname name of file storing requests
-//     */
-//    public void saveGame(String fname){
-//
-//
-//    }
-//
-//    /** reads all information about the game from the specified file
-//     * and returns a CORE reference to a Tournament object
-//     * @param fname name of file storing the game
-//     * @return the game (as a Tournament object)
-//     */
-//    public CORE loadGame(String fname){
-//
-//       return null;
-//    }
-//
+// ***************   file write/read  *********************
+
+    /** Writes whole game to the specified file
+     * @param fname name of file storing requests
+     */
+    public void saveGame(String fname){
+        try {
+            // Create new ObjectOutputStream under FileOutputStream,
+            // and write game object to file.
+            FileOutputStream fos = new FileOutputStream(fname);
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+            out.writeObject(this);
+        }
+        catch (IOException e) {
+            System.out.println(e); // Catch thrown IOException.
+        }
+    }
+
+    /** reads all information about the game from the specified file
+     * and returns a CORE reference to a Tournament object
+     * @param fname name of file storing the game
+     * @return the game (as a Tournament object)
+     */
+    public CORE loadGame(String fname){
+        try {
+            // Create new ObjectInputStream under FileInputStream.
+            FileInputStream fis = new FileInputStream(fname);
+            ObjectInputStream in = new ObjectInputStream(fis);
+
+            // Setup Tournament object to handle the reference,
+            // then return it as an object 'x'.
+            Tournament x = (Tournament)in.readObject();
+            return x;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      * reads challenges from a comma-separated textfile and stores
      * @param filename of the comma-separated textfile storing information about challenges
@@ -483,7 +505,6 @@ public class Tournament implements CORE {
         championChallengeList.add(cp10);
         Champion cp11 = new Champion("Hedwig", 1, true, 400, "flying", "", "warrior");
         championChallengeList.add(cp11);
-
     }
 
     private void setupChallenges() {
@@ -492,6 +513,7 @@ public class Tournament implements CORE {
             Challenge.resetChallengeNo();
         }
 
+        // Reads challenges from comma-separated file (Task 4.4).
         readChallenges("challenges.txt");
     }
 
@@ -533,7 +555,6 @@ public class Tournament implements CORE {
                 }
             }
         }
-
         return true;
     }
 

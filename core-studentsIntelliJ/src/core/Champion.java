@@ -1,6 +1,8 @@
 package core;
 
-public class Champion extends Item {
+import java.io.Serializable;
+
+public class Champion extends Item implements Serializable {
     private boolean necromancer;
     private String spellSpeciality;
     private String weapon;
