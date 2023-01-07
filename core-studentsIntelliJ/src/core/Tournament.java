@@ -12,8 +12,8 @@ import java.io.*;
 public class Tournament implements CORE {
     // Fields
     // Fields
-    private String playerName;
-    private ArrayList<Item> championChallengeList;
+    private final String playerName;
+    private final ArrayList<Item> championChallengeList;
     private int treasury;
 
     //**************** CORE **************************
@@ -25,9 +25,24 @@ public class Tournament implements CORE {
      */
     public Tournament(String pl) {
         playerName = pl;
-        championChallengeList = new ArrayList<Item>();
+        championChallengeList = new ArrayList<>();
         treasury = 1000;
         setupChallenges();
+        setupChampions();
+    }
+
+    /**
+     * Constructor requires the name of the player and the filename to load challenges from (Task 4.4).
+     *
+     * @param pl the name of the player
+     * @param fn the filename to load challenges from.
+     */
+    public Tournament(String pl, String fn) {
+        playerName = pl;
+        championChallengeList = new ArrayList<>();
+        treasury = 1000;
+        // Reads challenges from comma-separated file (Task 4.4).
+        readChallenges(fn);
         setupChampions();
     }
 
@@ -52,10 +67,10 @@ public class Tournament implements CORE {
             defeated = "Defeated";
         }
         String team = getTeam();
-        if (team == "") {
+        if (Objects.equals(team, "")) {
             team = "No champions";
         }
-        return "\n Player name: " + playerName + "\n Treasury: " + Integer.toString(treasury) + "\n Defeated?: " + defeated + "\n Team: " + team;
+        return "\n Player name: " + playerName + "\n Treasury: " + treasury + "\n Defeated?: " + defeated + "\n Team: " + team;
     }
 
     /**
@@ -66,10 +81,7 @@ public class Tournament implements CORE {
      * champions which can be decommissioned.
      */
     public boolean isDefeated() {
-        if (getMoney() <= 0 && teamEmpty()) {
-            return true;
-        }
-        return false;
+        return getMoney() <= 0 && teamEmpty();
     }
 
     /**
@@ -92,7 +104,7 @@ public class Tournament implements CORE {
         for (Item temp : championChallengeList) {
             if (temp instanceof Champion && ((Champion) temp).getStateString().equals("In reserve")) {
 
-                ss += temp.toString() + "\n";
+                ss += temp + "\n";
             }
         }
 
@@ -105,7 +117,7 @@ public class Tournament implements CORE {
      *
      * @param nme is the name of the champion
      * @return champion with the given name
-     * @throws NullPointerException
+     * @throws NullPointerException on 'throw new'
      **/
     private Champion getChampionObject(String nme) throws NullPointerException {
         for (Item temp : championChallengeList) {
@@ -134,18 +146,14 @@ public class Tournament implements CORE {
      * @return true if champion in reserve, false otherwise
      */
     public boolean isInReserve(String nme) {
-        try
-        {
-            Champion champ = getChampionObject(nme);
+        try {
+            getChampionObject(nme);
         }
-        catch (NullPointerException e){
+        catch (NullPointerException e) {
             return false;
         }
-        if (getChampionObject(nme).getStateString().equals("In reserve")) {
-            return true;
-        }
-        return false;
-        }
+        return getChampionObject(nme).getStateString().equals("In reserve");
+    }
 
     // ***************** Players Team************************
 
@@ -164,7 +172,7 @@ public class Tournament implements CORE {
     public int enterChampion(String nme) {
         try
         {
-            Champion champ = getChampionObject(nme);
+            getChampionObject(nme);
         }
         catch (NullPointerException e){
             return -1;
@@ -172,7 +180,7 @@ public class Tournament implements CORE {
 
         Champion champ = getChampionObject(nme);
         String state = champ.getStateString();
-        if (state != "In reserve") {
+        if (!Objects.equals(state, "In reserve")) {
             return 1;
                 }
 
@@ -196,16 +204,13 @@ public class Tournament implements CORE {
     public boolean isInPlayersTeam(String nme) {
         try
         {
-            Champion champ = getChampionObject(nme);
+            getChampionObject(nme);
         }
         catch (NullPointerException e){
             return false;
         }
         Champion champ = getChampionObject(nme);
-        if (champ.getStateString().equals("Active")) {
-            return true;
-                }
-        return false;
+        return champ.getStateString().equals("Active");
     }
 
     /**
@@ -222,7 +227,7 @@ public class Tournament implements CORE {
     public int retireChampion(String nme) {
         try
         {
-            Champion champ = getChampionObject(nme);
+            getChampionObject(nme);
         }
         catch (NullPointerException e){
             return -1;
@@ -253,7 +258,7 @@ public class Tournament implements CORE {
         for (Item temp : championChallengeList) // get each item in turn
         {
             if (temp instanceof Champion && ((Champion)temp).getStateString().equals("Active")) {
-                ss = ss + temp.toString() + "\n";
+                ss = ss + temp + "\n";
             }
         }
         return ss;
@@ -268,10 +273,7 @@ public class Tournament implements CORE {
      * @return true if the number represents a challenge
      **/
     public boolean isChallenge(int num) {
-        if (num > 0 && num <= getNoOfChallenges()) {
-            return true;
-        }
-        return false;
+        return num > 0 && num <= getNoOfChallenges();
     }
 
     /**
@@ -290,7 +292,7 @@ public class Tournament implements CORE {
     }
 
     /**
-     * Provides a String representation of an challenge given by
+     * Provides a String representation of a challenge given by
      * the challenge number
      *
      * @param num the number of the challenge
@@ -315,9 +317,8 @@ public class Tournament implements CORE {
      *
      * @precondition The isChallenge() method should be called before this to prevent NullPointerException otherwise try catch must be used
      * @param num the number of the challenge
-     * @return returns a challenge object given by
-     * the challenge number
-     * @throws NullPointerException
+     * @return returns a challenge object given by the challenge number
+     * @throws NullPointerException at 'throw new'
      **/
     private Challenge getChallengeObject(int num) throws NullPointerException {
         if (isChallenge(num)) {
@@ -339,7 +340,7 @@ public class Tournament implements CORE {
         String ss = "";
         for (Item temp : championChallengeList) {
             if (temp instanceof Challenge) {
-                ss = ss + temp.toString();
+                ss = ss + temp;
             }
         }
         return ss;
@@ -348,7 +349,7 @@ public class Tournament implements CORE {
     /**
      * Retrieves the challenge represented by the challenge
      * number.Finds a champion from the team which can challenge the
-     * challenge. The results of fighting an challenge will be
+     * challenge. The results of fighting a challenge will be
      * one of the following:
      * 0 - challenge won, add reward to the treasury,
      * 1 - challenge lost on battle skills  - deduct reward from
@@ -368,21 +369,19 @@ public class Tournament implements CORE {
             String challengeType = challenge.getTypeString();
             boolean matchesType = false;
             for (Item temp : championChallengeList) {
-                if (temp instanceof Champion && (((Champion)temp).getStateString().equals("Active"))) {
-                    String chal = challengeType;
-                    Champion champ = (Champion) temp;
+                if (temp instanceof Champion champ && (((Champion)temp).getStateString().equals("Active"))) {
 
                     if (( champ.getStateString().equals("Active"))) {
 
-                        if (chal.equals("Magic")) {
+                        if (challengeType.equals("Magic")) {
                             matchesType = champ.isMagic();
                         }
 
-                        if (chal.equals("Fight")) {
+                        if (challengeType.equals("Fight")) {
                             matchesType = champ.isFight();
                         }
 
-                        if (chal.equals("Mystery")) {
+                        if (challengeType.equals("Mystery")) {
                             matchesType = champ.isMystery();
                         }
 
@@ -429,7 +428,7 @@ public class Tournament implements CORE {
             out.writeObject(this);
         }
         catch (IOException e) {
-            System.out.println(e); // Catch thrown IOException.
+            e.printStackTrace(); // Catch thrown IOException.
         }
     }
 
@@ -445,10 +444,9 @@ public class Tournament implements CORE {
             ObjectInputStream in = new ObjectInputStream(fis);
 
             // Setup Tournament object to handle the reference,
-            // then return it as an object 'x'.
-            Tournament x = (Tournament)in.readObject();
-            return x;
-        } catch (Exception e) {
+            // then return it as an object.
+            return (Tournament)in.readObject();
+        } catch (IOException | ClassNotFoundException | NullPointerException e) {
             e.printStackTrace();
         }
         return null;
@@ -460,6 +458,11 @@ public class Tournament implements CORE {
      */
     public void readChallenges(String filename){
         try {
+            // Reset's challengeNo. Provided tests don't reset incrementation so must be reset here.
+            if (championChallengeList.size() == 0) {
+                Challenge.resetChallengeNo();
+            }
+
             // Initialize line reader.
             BufferedReader in = new BufferedReader(new FileReader(filename));
             String str;
@@ -468,15 +471,16 @@ public class Tournament implements CORE {
             // Then, populate challengeList with Challenge objects where the fields are the arguments from split up string.
             while((str = in.readLine()) != null) {
                 String[] arg = str.split(",");
+
                 championChallengeList.add(new Challenge(arg[0], arg[1], Integer.parseInt(arg[2]), Integer.parseInt(arg[3])));
             }
             in.close();
         }
         catch (FileNotFoundException e) {
-            System.out.println(e); // Catch if invalid filename supplied.
+            e.printStackTrace(); // Catch if invalid filename supplied.
         }
         catch (IOException e) {
-            System.out.println(e); // Catch IO exception.
+            e.printStackTrace(); // Catch IO exception.
         }
     }
 
@@ -513,8 +517,30 @@ public class Tournament implements CORE {
             Challenge.resetChallengeNo();
         }
 
-        // Reads challenges from comma-separated file (Task 4.4).
-        readChallenges("challenges.txt");
+        Challenge ch0 = new Challenge("Magic", "Borg", 3, 100);
+        championChallengeList.add(ch0);
+        Challenge ch1 = new Challenge("Fight", "Huns", 3, 120);
+        championChallengeList.add(ch1);
+        Challenge ch2 = new Challenge("Mystery", "Ferengi", 3, 150);
+        championChallengeList.add(ch2);
+        Challenge ch3 = new Challenge("Magic", "Vandal", 9, 200);
+        championChallengeList.add(ch3);
+        Challenge ch4 = new Challenge("Mystery", "Borg", 7, 90);
+        championChallengeList.add(ch4);
+        Challenge ch5 = new Challenge("Fight", "Goth", 8, 45);
+        championChallengeList.add(ch5);
+        Challenge ch6 = new Challenge("Magic", "Frank", 10, 200);
+        championChallengeList.add(ch6);
+        Challenge ch7 = new Challenge("Fight", "Sith", 10, 170);
+        championChallengeList.add(ch7);
+        Challenge ch8 = new Challenge("Mystery", "Cardashian", 9, 300);
+        championChallengeList.add(ch8);
+        Challenge ch9 = new Challenge("Fight", "Jute", 2, 300);
+        championChallengeList.add(ch9);
+        Challenge ch10 = new Challenge("Magic", "Celt", 2, 250);
+        championChallengeList.add(ch10);
+        Challenge ch11 = new Challenge("Mystery", "Celt", 1, 250);
+        championChallengeList.add(ch11);
     }
 
     /**
@@ -534,10 +560,7 @@ public class Tournament implements CORE {
      * @return true if there is enough gulden left in the treasury to deduct the amount by, otherwise returns false
      */
     private boolean enoughGuldun(int gulden) {
-        if (treasury + gulden >= 0) {
-            return true;
-        }
-        return false;
+        return treasury + gulden >= 0;
     }
 
     /**
@@ -548,8 +571,7 @@ public class Tournament implements CORE {
     private boolean teamEmpty() {
         for (Item temp : championChallengeList)
         {
-            if (temp instanceof Champion) {
-                Champion champ = (Champion) temp;
+            if (temp instanceof Champion champ) {
                 if ( champ.getStateString().equals("Active")) {
                     return false;
                 }
@@ -569,8 +591,7 @@ public class Tournament implements CORE {
     public boolean isDead(String nme) {
         for (Item temp : championChallengeList)
         {
-            if (temp.getName().equals(nme) && temp instanceof Champion) {
-                Champion champ = (Champion) temp;
+            if (temp.getName().equals(nme) && temp instanceof Champion champ) {
                 if (champ.getStateString().equals("dead")) {
                     return true;
                 }
