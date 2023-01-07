@@ -92,7 +92,9 @@ public class GameGUI
         retire.addActionListener(new RetireHandler());
         fileMenu.add(retire);
 
-
+        JMenuItem view = new JMenuItem("View Champion");
+        view.addActionListener(new ViewChampionHandler());
+        fileMenu.add(view);
 
         JMenuItem clear = new JMenuItem("Clear");
         clear.addActionListener(new ClearHandler());
@@ -243,12 +245,12 @@ public class GameGUI
 
     private class ViewChampionHandler implements ActionListener
     {
-        public void actionPerformed(ActionEvent e) 
-        { 
-            String result = "";
-            String inputValue = JOptionPane.showInputDialog("Champion name ?: ");
-            result = gp.getChampionDetails(inputValue);
-            JOptionPane.showMessageDialog(myFrame,result);    
+        public void actionPerformed(ActionEvent e)
+        {
+                String result = "";
+                String inputValue = JOptionPane.showInputDialog("Champion name ?: ");
+                result = gp.getChampionDetails(inputValue);
+                JOptionPane.showMessageDialog(myFrame,result);
         }
     }
     
