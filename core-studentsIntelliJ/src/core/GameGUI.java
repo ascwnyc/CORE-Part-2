@@ -1,8 +1,9 @@
 package core;
-import java.awt.*;
+
 import javax.swing.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Provide a GUI interface for the game
@@ -49,10 +50,11 @@ public class GameGUI
         eastPanel.add(fightBtn);
         eastPanel.add(viewBtn);
         eastPanel.add(clearBtn);
-        clearBtn.addActionListener(new ClearHandler());
+        clearBtn.addActionListener(new ClearButtonHandler());
         fightBtn.addActionListener(new FightHandler());
         viewBtn.addActionListener(new ViewHandler());
         eastPanel.add(quitBtn);
+        quitBtn.addActionListener(new QuitHandler());
         fightBtn.setVisible(true);
         viewBtn.setVisible(true);
         clearBtn.setVisible(true);
@@ -89,6 +91,12 @@ public class GameGUI
         JMenuItem retire = new JMenuItem("Retire Champion");
         retire.addActionListener(new RetireHandler());
         fileMenu.add(retire);
+
+
+
+        JMenuItem clear = new JMenuItem("Clear");
+        clear.addActionListener(new ClearHandler());
+        fileMenu.add(clear);
         
     }
     
@@ -169,6 +177,12 @@ public class GameGUI
         }
     }
 
+    private class QuitHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
+        }
+    }
+
     private class EnterHandler implements ActionListener
     {
         public void actionPerformed(ActionEvent e) 
@@ -208,15 +222,15 @@ public class GameGUI
             result = gp.retireChampion(nme);
             if (result ==0)
             {
-                output = "\n" + nme + " retired";
+                output = "\n" + nme + " retired.";
             }
             else if (result ==1)
             {
-                output = "\n" + nme + " not retired as dead" ;
+                output = "\n" + nme + " not retired due to them being dead." ;
             }
             else if (result ==2)
             {
-                output = "\n" + nme + " not retired as not in team" ;
+                output = "\n" + nme + " not retired due to them not being in the team." ;
             }
             else 
             {
