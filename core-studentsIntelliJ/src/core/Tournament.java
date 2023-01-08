@@ -78,8 +78,62 @@ public class Tournament implements CORE {
      * @return the amount of money in the Treasury
      */
     public int getMoney() {
-
         return treasury;
+    }
+
+    /**
+     * returns the state of a champion
+     *
+     * @param champ champion object to return the state of
+     * @return string regarding the state of a champion
+     */
+    private String getChampionState(Champion champ) {
+            return champ.getStateString();
+        }
+
+    /**
+     * Returns true if the state of the champion is equal to the provided state
+     *
+     * @param champ item object to return whether is equal to the provided state
+     * @return true if the item is a champion and has that state, otherwise returns false
+     */
+    private boolean stateEquals(Item champ, String state) {
+        String lowst = state.toLowerCase().trim();
+        //Error handling to check whether item provided is champion
+        if (champ instanceof Champion && getChampionState((Champion)champ).toLowerCase().equals(lowst)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns the type of challenge a challenge is
+     *
+     * @param challenge is the challenge to check the type of
+     * @return the type of challenge a challenge is, otherwise an empty string
+     */
+    private String getChallengeType(Item challenge) {
+        //Error handling to check whether item provided is champion
+        if (challenge instanceof Challenge) {
+            return ((Challenge)challenge).getTypeString();
+        }
+        return "";
+    }
+
+    /**
+     * returns true if the type of challenge is equal to the provided type
+     *
+     * @param challenge is the challenge to check
+     * @param type is the type of challenge to be checked against the challenge
+     * @return true if the item provided is a challenge is the provided type, otherwise returns false
+     */
+    private boolean typeEquals(Item challenge, String type) {
+        String lowst = type.toLowerCase().trim();
+        //Error handling to check whether item provided is champion
+        if (challenge instanceof Challenge && getChallengeType(challenge).toLowerCase().equals(lowst)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -90,12 +144,10 @@ public class Tournament implements CORE {
     public String getReserve() {
         String ss = "";
         for (Item temp : championChallengeList) {
-            if (temp instanceof Champion && ((Champion) temp).getStateString().equals("In reserve")) {
-
+            if (stateEquals(temp, "In reserve")) {
                 ss += temp.toString() + "\n";
             }
         }
-
         return ss;
     }
 
@@ -141,7 +193,7 @@ public class Tournament implements CORE {
         catch (NullPointerException e){
             return false;
         }
-        if (getChampionObject(nme).getStateString().equals("In reserve")) {
+        if (stateEquals(getChampionObject(nme), "In reserve")) {
             return true;
         }
         return false;
@@ -171,8 +223,7 @@ public class Tournament implements CORE {
         }
 
         Champion champ = getChampionObject(nme);
-        String state = champ.getStateString();
-        if (state != "In reserve") {
+        if (!stateEquals(getChampionObject(nme), "In reserve")) {
             return 1;
                 }
 
@@ -201,8 +252,7 @@ public class Tournament implements CORE {
         catch (NullPointerException e){
             return false;
         }
-        Champion champ = getChampionObject(nme);
-        if (champ.getStateString().equals("Active")) {
+        if (stateEquals(getChampionObject(nme), "Active")) {
             return true;
                 }
         return false;
@@ -228,12 +278,12 @@ public class Tournament implements CORE {
             return -1;
         }
         Champion champ = getChampionObject(nme);
-        String state = champ.getStateString();
-        if (state.equals("Dead")) {
+
+        if (stateEquals(champ, "Dead")) {
             return 1;
         }
 
-        if (state.equals("In reserve")) {
+        if (stateEquals(champ, "In reserve")) {
             return 2;
         }
 
@@ -252,7 +302,7 @@ public class Tournament implements CORE {
         String ss = "";
         for (Item temp : championChallengeList) // get each item in turn
         {
-            if (temp instanceof Champion && ((Champion)temp).getStateString().equals("Active")) {
+            if (stateEquals(temp, "Active")) {
                 ss = ss + temp.toString() + "\n";
             }
         }
@@ -299,14 +349,23 @@ public class Tournament implements CORE {
      **/
     public String getChallenge(int num) {
         if (isChallenge(num)) {
-            for (Item temp : championChallengeList) {
-                if ((temp instanceof Challenge && ((Challenge)temp).getChallengeNo() == num)) {
-                    return temp.toString();
+            return getChallengeObject(num).toString();
                 }
-            }
-        }
-
         return "";
+    }
+
+    /**
+     * Checks whether a challenge is the same as the number challenge chosen by a user
+     *
+     * @param num the number of the challenge
+     * @param challenge the current challenge to check the given number by
+     * @return returns true if the provided challenge matches the given challenge number, otherwise false
+     **/
+    private boolean equalsChallenge(int num, Item challenge) {
+        if (challenge instanceof Challenge && ((Challenge)challenge).getChallengeNo() == num) {
+                    return true;
+                }
+        return false;
     }
 
     /**
@@ -315,14 +374,13 @@ public class Tournament implements CORE {
      *
      * @precondition The isChallenge() method should be called before this to prevent NullPointerException otherwise try catch must be used
      * @param num the number of the challenge
-     * @return returns a challenge object given by
-     * the challenge number
+     * @return returns the challenge object given by the challenge number
      * @throws NullPointerException
      **/
     private Challenge getChallengeObject(int num) throws NullPointerException {
         if (isChallenge(num)) {
             for (Item temp : championChallengeList) {
-                if ((temp instanceof Challenge && ((Challenge)temp).getChallengeNo() == num)) {
+                if (equalsChallenge(num, temp)) {
                     return (Challenge)temp;
                 }
             }
@@ -339,11 +397,63 @@ public class Tournament implements CORE {
         String ss = "";
         for (Item temp : championChallengeList) {
             if (temp instanceof Challenge) {
-                ss = ss + temp.toString();
+                ss = ss + temp;
             }
         }
         return ss;
     }
+
+    /**
+     * Determines whether a champion provided is suitable to fight a challenge
+     * @param challenge is the challenge the champion is checked for suitability against
+     * @param champ is the champion to be checked for suitability against the given challenge
+     * @return returns true if the champion is suited for the fight if their type can fight against the challenge type, otherwise false
+     **/
+    private boolean determineSuitability(Challenge challenge, Champion champ) {
+
+        boolean matchesType = false;
+        if (typeEquals(challenge, "Magic")) {
+            matchesType = champ.isMagic();
+        }
+        if (typeEquals(challenge, "Fight")) {
+            matchesType = champ.isFight();
+        }
+        if (typeEquals(challenge, "Mystery")) {
+            matchesType = champ.isMystery();
+        }
+
+        return matchesType;
+    }
+
+    /**
+     * Determines the outcome of a champion fighting the given challenge
+     * The results of fighting a challenge will be
+     *      one of the following:
+     *      0 - challenge won, add reward to the treasury,
+     *      1 - challenge lost on battle skills  - deduct reward from
+     *      treasury and record champion as "dead"
+     *      3 - If a challenge is lost and player completely defeated (no money and
+     *      no champions to withdraw)
+     *
+     * @param challenge is the challenge the champion will fight in
+     * @param champ is the champion to fight the challenge
+     * @return an int showing the result(as above) of fighting the challenge
+     **/
+    private int determineBattleOutcome(Challenge challenge, Champion champ) {
+
+            if (champ.getSkill() >= challenge.getSkill()) {
+                alterTreasury(challenge.getGulden());
+                return 0;
+            } else {
+                alterTreasury(-challenge.getGulden());
+                champ.alterState("dead");
+                if (isDefeated()) {
+                    return 3;
+                }
+                return 1;
+            }
+
+        }
 
     /**
      * Retrieves the challenge represented by the challenge
@@ -365,39 +475,12 @@ public class Tournament implements CORE {
     public int fightChallenge(int chalNo) {
         if (isChallenge(chalNo)) {
             Challenge challenge = getChallengeObject(chalNo);
-            String challengeType = challenge.getTypeString();
-            boolean matchesType = false;
             for (Item temp : championChallengeList) {
-                if (temp instanceof Champion && (((Champion)temp).getStateString().equals("Active"))) {
-                    String chal = challengeType;
+                if (stateEquals(temp, "Active")) {
                     Champion champ = (Champion) temp;
-
-                    if (( champ.getStateString().equals("Active"))) {
-                        if (chal.equals("Magic")) {
-                            matchesType = champ.isMagic();
+                    if (determineSuitability(challenge, champ)) {
+                        return determineBattleOutcome(challenge, champ);
                         }
-                        if (chal.equals("Fight")) {
-                            matchesType = champ.isFight();
-                        }
-                        if (chal.equals("Mystery")) {
-                            matchesType = champ.isMystery();
-                        }
-
-                        if (matchesType) {
-                            if (temp.getSkill() >= challenge.getSkill()) {
-                                alterTreasury(challenge.getGulden());
-                                return 0;
-                            } else {
-                                alterTreasury(-challenge.getGulden());
-                                champ.alterState("dead");
-                                if (isDefeated()) {
-                                    return 3;
-                                }
-                                return 1;
-                            }
-
-                        }
-                    }
                 }
             }
 
@@ -440,6 +523,10 @@ public class Tournament implements CORE {
 //
 //    }
 
+    /**
+     * Adds the champions to the game that may be added to the player's team and fought in challenges
+     *
+     */
     private void setupChampions() {
         Champion cp0 = new Champion("Ganfrank", 7, true, 400, "transmutation", null, "wizard");
         championChallengeList.add(cp0);
@@ -468,6 +555,10 @@ public class Tournament implements CORE {
 
     }
 
+    /**
+     * Adds the challenges to the game that champions will fight against
+     *
+     */
     private void setupChallenges() {
         boolean reset;
         if (championChallengeList.size() == 0) {
@@ -506,7 +597,7 @@ public class Tournament implements CORE {
      * Alters the treasury by the specified amount of gulden determined by the int gulden from the treasury
      *
      * @param gulden is the amount of gulden to alter by, positive gulden increases the treasury and negative gulden decreases the treasury.
-     *
+     * @precondition May require the calling of enough gulden beforehand if the transaction cannot become less than zero in that case
      */
     private void alterTreasury(int gulden) {
         treasury = treasury + gulden;
@@ -533,37 +624,14 @@ public class Tournament implements CORE {
     private boolean teamEmpty() {
         for (Item temp : championChallengeList)
         {
-            if (temp instanceof Champion) {
-                Champion champ = (Champion) temp;
-                if ( champ.getStateString().equals("Active")) {
+                if (stateEquals(temp, "Active")) {
                     return false;
                 }
-            }
         }
 
         return true;
     }
 
-    /**
-     * Returns true if the champion with the name is in
-     * the player's team, false otherwise.
-     *
-     * @param nme is the name of the champion
-     * @return true if the champion with the name
-     * is in the player's team, false otherwise.
-     **/
-    public boolean isDead(String nme) {
-        for (Item temp : championChallengeList)
-        {
-            if (temp.getName().equals(nme) && temp instanceof Champion) {
-                Champion champ = (Champion) temp;
-                if (champ.getStateString().equals("dead")) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }
 
 

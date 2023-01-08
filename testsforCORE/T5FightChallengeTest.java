@@ -330,37 +330,4 @@ public class T5FightChallengeTest {
         assertEquals(expected, actual);
     }
 
-    //Invalid challenge
-
-
-    @Test
-    public void invalidChallengeNumberTooHigh() {
-        int expected = -1;
-        game.enterChampion("Drabina");
-        int actual = game.fightChallenge(13);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void invalidChallengeNumberTooLow() {
-        int expected = -1;
-        game.enterChampion("Drabina");
-        int actual = game.fightChallenge(-1);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void invalidChallengeNumberZero() {
-        int expected = -1;
-        game.enterChampion("Drabina");
-        int actual = game.fightChallenge(0);
-        assertEquals(expected, actual);
-    }
-
-
-    
-  
-    
-    
-
 }

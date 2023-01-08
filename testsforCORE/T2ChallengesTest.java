@@ -120,4 +120,13 @@ public class T2ChallengesTest {
         assertTrue(actual); 
     }
 
+    @Test
+    public void gameCorrectlyInitialisedChallenges() {
+        String result = game.getAllChallenges();
+        String[] xx = {"Borg", "Huns", "Ferengi", "Vandal", "Goth", "Frank", "Sith", "Cardashian", "Jute", "Celt", "Celt"};
+        boolean actual = containsText(result,xx );
+        System.out.println(actual);
+        assertTrue(actual);
+    }
+
 }

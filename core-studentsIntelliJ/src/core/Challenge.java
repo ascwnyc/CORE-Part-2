@@ -13,7 +13,13 @@ public class Challenge extends Item {
         }
 
         challengeNo = challNo++;
-        chooseType(ty);
+
+        try {
+            chooseType(ty);
+        }
+        catch (InterruptedException e) {
+
+        }
     }
 
     public String toString() {
@@ -37,7 +43,7 @@ public class Challenge extends Item {
      *
      * @return boolean returns true if the type was altered and false if this fails
      **/
-    public boolean chooseType(String st) {
+    public boolean chooseType(String st) throws InterruptedException {
         String lowst = st.toLowerCase().trim();
         if (lowst.equals("magic")) {
             type = ChallengeType.MAGIC;
