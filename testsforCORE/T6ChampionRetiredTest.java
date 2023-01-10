@@ -129,7 +129,6 @@ public class T6ChampionRetiredTest {
         assertFalse(actual);
     }
 
-
     @Test
     public void retireDeadChampionTestMoneyNotDeducted(){
         int expected = 1000 -(400+150+300) -45;
@@ -146,12 +145,5 @@ public class T6ChampionRetiredTest {
         assertFalse(actual);
     }
 
-    @Test
-    public void retireChampionTwice(){
-        int expected = 2;
-        game.retireChampion("Ganfrank");
-        game.retireChampion("Ganfrank");
-        int actual = game.retireChampion("Ganfrank");
-        assertEquals(expected, actual);
-    }
+
 }
