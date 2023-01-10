@@ -185,7 +185,7 @@ public class Tournament implements CORE {
                 }
 
         int gulden = champ.getGulden();
-        if (enoughGuldun(-gulden)) {
+        if (enoughGulden(-gulden)) {
             alterTreasury(-gulden);
             champ.alterState("active");
             return 0;
@@ -559,7 +559,7 @@ public class Tournament implements CORE {
      * @param gulden is the amount of gulden to alter by, positive gulden increases the treasury and negative gulden decreases the treasury.
      * @return true if there is enough gulden left in the treasury to deduct the amount by, otherwise returns false
      */
-    private boolean enoughGuldun(int gulden) {
+    private boolean enoughGulden(int gulden) {
         return treasury + gulden >= 0;
     }
 
