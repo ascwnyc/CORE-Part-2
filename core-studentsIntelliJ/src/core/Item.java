@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class Item implements Serializable {
 
     // instance variables - replace the example below with your own
-    private String name;
-    private int skill;
-    private int gulden;
+    private final String name;
+    private final int skill;
+    private final int gulden;
 
     /**
      * Constructor for objects of class ITEM

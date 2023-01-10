@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Challenge extends Item implements Serializable {
     private ChallengeType type;
     private static int challNo = 1;
-    private int challengeNo;
+    private final int challengeNo;
 
     public Challenge(String ty, String en, int sr, int rw) {
         super(en,sr,rw);
@@ -15,7 +15,7 @@ public class Challenge extends Item implements Serializable {
             chooseType(ty);
         }
         catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -40,8 +40,6 @@ public class Challenge extends Item implements Serializable {
      *  "magic" changes challenge type to MAGIC
      *  "fight" changes the challenge type to FIGHT
      *  "mystery" changes the challenge type to MYSTERY
-     *
-     *
      * @return boolean returns true if the type was altered and false if this fails
      **/
     public boolean chooseType(String st) throws InterruptedException {

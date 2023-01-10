@@ -3,9 +3,9 @@ package core;
 import java.io.Serializable;
 
 public class Champion extends Item implements Serializable {
-    private boolean necromancer;
-    private String spellSpeciality;
-    private String weapon;
+    private final boolean necromancer;
+    private final String spellSpeciality;
+    private final String weapon;
     private boolean talks;
     private ChampionType type;
     private ChampionState state;
@@ -17,11 +17,7 @@ public class Champion extends Item implements Serializable {
         weapon = wp;
 
         if (chooseType(tp)) {
-            if (type == ChampionType.TALKINGDRAGON) {
-                talks = true;
-            } else {
-                talks = false;
-            }
+            talks = type == ChampionType.TALKINGDRAGON;
             state = ChampionState.WAITING;
         }
     }
@@ -35,8 +31,6 @@ public class Champion extends Item implements Serializable {
      *  "in reserve" changes champion's state to WAITING meaning the champion is not in the team
      *  "active" changes the champion's state to ACTIVE meaning the champion is in the team
      *  "dead" changes the champion's state to DEAD meaning the champion is now dead
-     *
-     *
      * @return boolean returns true if the state was altered and false if this fails
      **/
     public boolean alterState(String st) {
@@ -66,29 +60,27 @@ public class Champion extends Item implements Serializable {
      *  "talking dragon" makes the champion's type a dragon which can talk
      *  "wizard" makes the champion's type a wizard
      *  "warrior" makes the champion's type a warrior
-     *
-     *
      * @return boolean returns true if the state was altered and false if this fails
      **/
 
     public boolean chooseType(String st) {
         String lowst = st.toLowerCase();
-        if (lowst == "dragon") {
+        if (lowst.equals("dragon")) {
             type = ChampionType.DRAGON;
             return true;
         }
 
-        if (lowst == "talking dragon") {
+        if (lowst.equals("talking dragon")) {
             type = ChampionType.TALKINGDRAGON;
             return true;
         }
 
-        if (lowst == "wizard") {
+        if (lowst.equals("wizard")) {
             type = ChampionType.WIZARD;
             return true;
         }
 
-        if (lowst == "warrior") {
+        if (lowst.equals("warrior")) {
             type = ChampionType.WARRIOR;
             return true;
         }
