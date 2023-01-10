@@ -112,10 +112,7 @@ public class Tournament implements CORE {
     private boolean stateEquals(Item champ, String state) {
         String lowst = state.toLowerCase().trim();
         //Error handling to check whether item provided is champion
-        if (champ instanceof Champion && getChampionState((Champion)champ).toLowerCase().equals(lowst)) {
-            return true;
-        }
-        return false;
+        return champ instanceof Champion && getChampionState((Champion) champ).toLowerCase().equals(lowst);
     }
 
     /**
@@ -142,10 +139,7 @@ public class Tournament implements CORE {
     private boolean typeEquals(Item challenge, String type) {
         String lowst = type.toLowerCase().trim();
         //Error handling to check whether item provided is champion
-        if (challenge instanceof Challenge && getChallengeType(challenge).toLowerCase().equals(lowst)) {
-            return true;
-        }
-        return false;
+        return challenge instanceof Challenge && getChallengeType(challenge).toLowerCase().equals(lowst);
     }
 
     /**
@@ -158,7 +152,7 @@ public class Tournament implements CORE {
         for (Item temp : championChallengeList) {
         
             if (stateEquals(temp, "In reserve")) {
-                ss += temp.toString() + "\n";
+                ss += temp + "\n";
             }
         }
         return ss;
@@ -205,11 +199,8 @@ public class Tournament implements CORE {
         catch (NullPointerException e) {
             return false;
         }
-        if (stateEquals(getChampionObject(nme), "In reserve")) {
-            return true;
-        }
-        return false;
-        }
+        return stateEquals(getChampionObject(nme), "In reserve");
+    }
 
     // ***************** Players Team************************
 
@@ -265,11 +256,8 @@ public class Tournament implements CORE {
         catch (NullPointerException e){
             return false;
         }
-        
-        if (stateEquals(getChampionObject(nme), "Active")) {
-            return true;
-                }
-        return false;
+
+        return stateEquals(getChampionObject(nme), "Active");
     }
 
     /**
@@ -317,7 +305,7 @@ public class Tournament implements CORE {
         for (Item temp : championChallengeList) // get each item in turn
         {
             if (stateEquals(temp, "Active")) {
-                ss = ss + temp.toString() + "\n";
+                ss = ss + temp + "\n";
             }
         }
         return ss;
@@ -373,10 +361,7 @@ public class Tournament implements CORE {
      * @return returns true if the provided challenge matches the given challenge number, otherwise false
      **/
     private boolean equalsChallenge(int num, Item challenge) {
-        if (challenge instanceof Challenge && ((Challenge)challenge).getChallengeNo() == num) {
-                    return true;
-                }
-        return false;
+        return challenge instanceof Challenge && ((Challenge) challenge).getChallengeNo() == num;
     }
 
     /**
@@ -386,7 +371,7 @@ public class Tournament implements CORE {
      * @precondition The isChallenge() method should be called before this to prevent NullPointerException otherwise try catch must be used
      * @param num the number of the challenge
      * @return returns the challenge object given by the challenge number
-     * @throws NullPointerException
+     * @throws NullPointerException at 'throw new'
      **/
     private Challenge getChallengeObject(int num) throws NullPointerException {
         if (isChallenge(num)) {
