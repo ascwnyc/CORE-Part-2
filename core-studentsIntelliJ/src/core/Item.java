@@ -1,6 +1,8 @@
 package core;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     // instance variables - replace the example below with your own
     private String name;
